@@ -1,7 +1,8 @@
 import nx from '@nx/eslint-plugin'
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
+import prettierConfig from 'eslint-config-prettier'
 
 export default [
   ...nx.configs['flat/base'],
@@ -40,8 +41,6 @@ export default [
       '**/*.mjs',
     ],
     rules: {
-      semi: ['error', 'never'],
-      'no-extra-semi': 'error',
     },
   },
   {
@@ -65,7 +64,7 @@ export default [
       'react/prop-types': 'off',
       'react/self-closing-comp': 'warn',
       'react/jsx-no-target-blank': 'error',
-      semi: ['error', 'never'],
     },
   },
+  prettierConfig,
 ]
