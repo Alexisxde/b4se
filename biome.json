@@ -1,0 +1,85 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!.agents"]
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "lineWidth": 120,
+    "indentWidth": 2,
+    "indentStyle": "space",
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "formatWithErrors": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "performance": { "noImgElement": "off" },
+      "security": { "noDangerouslySetInnerHtml": "off" },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noUnknownAtRules": "off",
+        "noConsole": "error",
+        "noAssignInExpressions": "off",
+        "noDocumentCookie": "off",
+        "noExplicitAny": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useSemanticElements": "off",
+        "noStaticElementInteractions": "off",
+        "useButtonType": "off",
+        "useKeyWithClickEvents": "off"
+      },
+      "correctness": { "useParseIntRadix": "off" },
+      "complexity": {
+        "noUselessFragments": "off",
+        "noBannedTypes": "off",
+        "noUselessLoneBlockStatements": "off",
+        "noAdjacentSpacesInRegex": "off"
+      },
+      "style": { "noNamespace": "error", "noNonNullAssertion": "off" }
+    },
+    "domains": { "next": "recommended", "react": "recommended" }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteProperties": "asNeeded",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "attributePosition": "auto",
+      "quoteStyle": "double",
+      "trailingCommas": "none"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "recommended": true,
+        "organizeImports": "off",
+        "useSortedProperties": "on"
+      }
+    }
+  }
+}

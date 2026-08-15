@@ -1,9 +1,0 @@
-@import 'tailwindcss';
-@import '../../../../packages/ui/src/globals.css';
-@source "../../../../packages";
-
-@theme {
-  --font-sans:
-    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-}
