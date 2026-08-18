@@ -1,0 +1,15 @@
+services:
+  auth-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=authuser
+      - POSTGRES_PASSWORD=authpass
+      - POSTGRES_DB=authdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+
+volumes:
+  auth_data:

@@ -8,6 +8,9 @@
     },
     {
       "path": "./apps/sub"
+    },
+    {
+      "path": "./apps/api-auth"
     }
   ],
   "compilerOptions": {}

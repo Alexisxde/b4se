@@ -18,6 +18,7 @@
     "target": "es2022",
     "customConditions": ["@b4se/source"],
     "noUncheckedSideEffectImports": false,
+    "esModuleInterop": true,
     "types": ["*"]
   }
 }

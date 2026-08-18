@@ -1,4 +1,8 @@
 packages:
-  - 'packages/*'
-  - 'libs/*'
-  - 'apps/*'
+  - "packages/*"
+  - "libs/*"
+  - "apps/*"
+  - "auth"
+  - "auth-e2e"
+  - "auth2"
+  - "auth2-e2e"

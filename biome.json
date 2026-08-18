@@ -52,6 +52,7 @@
       },
       "correctness": { "useParseIntRadix": "off" },
       "complexity": {
+        "noStaticOnlyClass": "off",
         "noUselessFragments": "off",
         "noBannedTypes": "off",
         "noUselessLoneBlockStatements": "off",

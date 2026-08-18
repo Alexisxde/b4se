@@ -1,0 +1,55 @@
+{
+  "name": "@b4se/api-auth",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "targets": {
+      "build": {
+        "cache": true,
+        "dependsOn": ["^build"],
+        "inputs": ["production", "^production"],
+        "outputs": ["{workspaceRoot}/apps/api-auth/dist"],
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/api-auth",
+          "command": "swc src -d dist --strip-leading-paths -C module.type=commonjs"
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/api-auth",
+          "command": "node --watch -r @swc-node/register src/index.ts"
+        }
+      },
+      "start": {
+        "dependsOn": ["build"],
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/api-auth",
+          "command": "node dist/index.js"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "bcrypt": "6.0.0",
+    "express": "^5.1.0",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "jsonwebtoken": "9.0.2",
+    "morgan": "1.10.1",
+    "prisma": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "6.0.0",
+    "@types/cookie-parser": "1.4.9",
+    "@types/cors": "2.8.17",
+    "@types/jsonwebtoken": "9.0.10",
+    "@types/morgan": "1.9.10"
+  }
+}
