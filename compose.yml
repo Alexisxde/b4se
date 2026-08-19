@@ -3,13 +3,26 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=authuser
-      - POSTGRES_PASSWORD=authpass
-      - POSTGRES_DB=authdb
+      - POSTGRES_USER=${POSTGRES_USER:-authuser}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-authpass}
+      - POSTGRES_DB=${POSTGRES_DB:-authdb}
     ports:
-      - "5435:5432"
+      - "${DB_PORT:-5435}:5432"
     volumes:
       - auth_data:/var/lib/postgresql/data
+  
+  subscription-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-subscriptionuser}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-subscriptionpass}
+      - POSTGRES_DB=${POSTGRES_DB:-subscriptiondb}
+    ports:
+      - "${DB_PORT:-5436}:5432"
+    volumes:
+      - subscription_data:/var/lib/postgresql/data
 
 volumes:
   auth_data:
+  subscription_data:

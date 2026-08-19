@@ -1,3 +1,4 @@
+import QueryProvider from "@/providers/query-provider"
 import SessionProvider from "@/providers/session-provider"
 import ThemeProvider from "@/providers/theme-provider"
 import { DM_Sans } from "next/font/google"
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased">
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
+            <QueryProvider>{children}</QueryProvider>
           </ThemeProvider>
           <Toaster position="top-right" theme="system" />
         </SessionProvider>

@@ -1,0 +1,76 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id            String         @id @default(uuid())
+  name          String
+  logo          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime?      @updatedAt
+  isDeleted     Boolean        @default(false)
+  subscriptions Subscription[]
+}
+
+model Service {
+  id            String         @id @default(uuid())
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime?      @updatedAt
+  logo          String?
+  subscriptions Subscription[]
+}
+
+model PaymentMethod {
+  id            String                @id @default(uuid())
+  name          String
+  logo          String?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime?             @updatedAt
+  isDeleted     Boolean               @default(false)
+  subscriptions HistorySubscription[]
+}
+
+
+model Subscription {
+  id               String                @id @default(uuid())
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime?             @updatedAt
+  notificationSent Boolean               @default(false)
+  history          HistorySubscription[]
+  serviceId  String
+  categoryId String
+  userId     String
+
+  service  Service  @relation(fields: [serviceId], references: [id], onDelete: NoAction)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: NoAction)
+
+  @@index([userId, serviceId])
+}
+
+enum SubscriptionPeriod {
+  month
+  year
+}
+
+model HistorySubscription {
+  id        String             @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  amount    Float
+  period    SubscriptionPeriod @default(month)
+  note      String?
+
+  subscriptionId  String
+  paymentMethodId String
+
+  subscription  Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: NoAction)
+  paymentMethod PaymentMethod @relation(fields: [paymentMethodId], references: [id], onDelete: NoAction)
+
+  @@index([subscriptionId])
+}
