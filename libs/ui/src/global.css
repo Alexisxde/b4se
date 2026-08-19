@@ -1,2 +1,92 @@
 @import "tailwindcss";
 @import "./theme.css";
+
+/* :root {
+  /* === BACKGROUND & SUPERFICIE BASE === */
+  --color-background: #131313;                  /* Fondo principal de la aplicación/página (body background) */
+  --color-on-background: #e2e2e2;               /* Texto principal sobre el fondo de la app */
+  --color-surface: #131313;                     /* Superficie base para vistas, pantallas y layouts */
+  --color-surface-dim: #131313;                 /* Superficie más oscura/atenuada (fondos secundarios o barras) */
+  --color-surface-bright: #393939;              /* Superficie clara/brillante para resaltar áreas o hover */
+  /* === NIVELES DE CONTENEDORES (CARDS, DIALOGS, SHEETS) === */
+  --color-surface-container-lowest: #0e0e0e;    /* Nivel 0 (más bajo): Fondos detrás de otros contenedores o tarjetas anidadas */
+  --color-surface-container-low: #1b1b1b;       /* Nivel 1: Tarjetas sutiles, sidebars, fondos de sección */
+  --color-surface-container: #1f1f1f;           /* Nivel 2 (Default): Cards (tarjetas principales), modales, bottom sheets */
+  --color-surface-container-high: #2a2a2a;      /* Nivel 3: Popovers, dropdowns (menús desplegables), tarjetas elevadas */
+  --color-surface-container-highest: #353535;   /* Nivel 4: Tooltips, inputs/cajas de texto rellenas, modales prioritarios */
+  /* === TEXTO Y ELEMENTOS SOBRE SUPERFICIES === */
+  --color-on-surface: #e2e2e2;                  /* Texto principal, títulos e iconos sobre cualquier Card o Surface */
+  --color-surface-variant: #4c4546;             /* Fondos secundarios, chips inactivos, dividers sutiles */
+  --color-on-surface-variant: #cfc4c5;          /* Texto secundario, subtítulos, placeholders de inputs, iconos secundarios */
+  /* === ELEMENTOS INVERTIDOS (SNACKBARS / TOASTS) === */
+  --color-inverse-surface: #e2e2e2;             /* Fondo de Snackbars / Toasts y tooltips de alto contraste */
+  --color-inverse-on-surface: #303030;          /* Texto e iconos dentro de Snackbars / Toasts */
+  /* === BORDES Y SEPARADORES === */
+  --color-outline: #988e90;                     /* Bordes principales (inputs sin foco, bordes de cards, botones outline) */
+  --color-outline-variant: #4c4546;             /* Bordes secundarios sutiles, líneas divisorias (dividers), separadores */
+  /* === SOMBRAS Y OVERLAYS === */
+  --color-shadow: #000000;                      /* Sombras de elevación (box-shadow) en modales, dropdowns y cards */
+  --color-scrim: #000000;                       /* Overlay/fondo oscuro detrás de modales, dialogs y drawers (backdrop) */
+  --color-surface-tint: #c6c6c6;                /* Tinte de color primario aplicado a superficies elevadas */
+  /* === COLOR PRIMARIO (ACCIONES PRINCIPALES) === */
+  --color-primary: #c6c6c6;                     /* Botones principales (filled), enlaces activos, switches activos, tabs */
+  --color-on-primary: #303030;                  /* Texto e iconos sobre el botón primario */
+  --color-primary-container: #000000;           /* Contenedor primario (chips seleccionados, botones tonales, badges destacados) */
+  --color-on-primary-container: #969696;        /* Texto e iconos sobre el contenedor primario */
+  --color-inverse-primary: #5e5e5e;             /* Color primario para acciones dentro de Snackbars/Toasts (ej. botón 'Deshacer') */
+  /* === COLOR SECUNDARIO (ACCIONES DE SOPORTE) === */
+  --color-secondary: #c6c6c6;                   /* Botones secundarios, chips de filtro, elementos de acento */
+  --color-on-secondary: #303030;                /* Texto e iconos sobre el color secundario */
+  --color-secondary-container: #3d3d3d;         /* Fondos secundarios de menor énfasis (chips activos, navegación secundaria) */
+  --color-on-secondary-container: #d1d1d1;      /* Texto e iconos sobre el contenedor secundario */
+  /* === COLOR TERCIARIO (CONTRASTE Y VARIEDAD) === */
+  --color-tertiary: #c6c6c6;                    /* Acentos adicionales, tags, categorías o elementos diferenciadores */
+  --color-on-tertiary: #303030;                 /* Texto e iconos sobre el color terciario */
+  --color-tertiary-container: #000000;          /* Fondos o badges para destacar elementos terciarios */
+  --color-on-tertiary-container: #969696;       /* Texto e iconos sobre el contenedor terciario */
+  /* === ERRORES Y ESTADOS DE ALERTA === */
+  --color-error: #ffb4ab;                       /* Mensajes de error, iconos de alerta, bordes de inputs inválidos */
+  --color-on-error: #690005;                    /* Texto e iconos sobre botones o badges de error rellenos */
+  --color-error-container: #93000a;             /* Fondo de alertas de error, banners de advertencia o callouts */
+  --color-on-error-container: #ffdad6;          /* Texto e iconos dentro del banner/alerta de error */
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-on-background: var(--color-on-background);
+  --color-surface: var(--color-surface);
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-bright: var(--color-surface-bright);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+  --color-on-surface: var(--color-on-surface);
+  --color-surface-variant: var(--color-surface-variant);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-inverse-surface: var(--color-inverse-surface);
+  --color-inverse-on-surface: var(--color-inverse-on-surface);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+  --color-shadow: var(--color-shadow);
+  --color-scrim: var(--color-scrim);
+  --color-surface-tint: var(--color-surface-tint);
+  --color-primary: var(--color-primary);
+  --color-on-primary: var(--color-on-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-on-primary-container: var(--color-on-primary-container);
+  --color-inverse-primary: var(--color-inverse-primary);
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+  --color-tertiary: var(--color-tertiary);
+  --color-on-tertiary: var(--color-on-tertiary);
+  --color-tertiary-container: var(--color-tertiary-container);
+  --color-on-tertiary-container: var(--color-on-tertiary-container);
+  --color-error: var(--color-error);
+  --color-on-error: var(--color-on-error);
+  --color-error-container: var(--color-error-container);
+  --color-on-error-container: var(--color-on-error-container);
+}  */

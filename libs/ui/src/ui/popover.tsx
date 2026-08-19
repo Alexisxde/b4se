@@ -302,13 +302,13 @@ function PopoverContent({ children, className, style, ...props }: PopoverContent
         role="dialog"
         aria-modal="true"
         aria-hidden={!isOpen}
-        className="fixed z-50 overflow-hidden bg-popover text-popover-foreground border border-border shadow-2xl"
+        className="fixed z-50 overflow-hidden bg-popover text-popover-foreground border border-outline shadow-2xl"
         style={{
           display: "none",
           willChange: "transform, width, height, border-radius"
         }}
         {...props}>
-        <div ref={contentRef} className={cn("w-full h-full flex flex-col", className)} style={style}>
+        <div ref={contentRef} className={cn("flex flex-col p-6", className)} style={style}>
           {children}
         </div>
       </div>
@@ -350,7 +350,7 @@ function PopoverClose({ children, className, ...props }: PopoverCloseProps) {
       onClick={close}
       aria-label="Cerrar"
       className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground border border-border/40 transition-colors cursor-pointer",
+        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground border border-outline/40 transition-colors cursor-pointer",
         className
       )}
       {...props}>

@@ -49,6 +49,9 @@ Thumbs.db
 .nx/self-healing
 .nx/migrate-runs
 
+# env files (can opt-in for committing if needed)
+.env*
+
 # Next.js
 .next
 out

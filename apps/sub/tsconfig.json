@@ -33,7 +33,8 @@
     "../../apps/sub/.next/types/**/*.ts",
     "../../dist/apps/sub/.next/types/**/*.ts",
     "index.d.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    "../../libs/ui/src/toast/sileo.ts"
   ],
   "exclude": [
     "out-tsc",

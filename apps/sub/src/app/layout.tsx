@@ -1,4 +1,7 @@
+import SessionProvider from "@/providers/session-provider"
+import ThemeProvider from "@/providers/theme-provider"
 import { DM_Sans } from "next/font/google"
+import { Toaster } from "sileo"
 import "./global.css"
 
 const dmSans = DM_Sans({
@@ -15,7 +18,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`dark ${dmSans.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <SessionProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+          <Toaster position="top-right" theme="system" />
+        </SessionProvider>
+      </body>
     </html>
   )
 }

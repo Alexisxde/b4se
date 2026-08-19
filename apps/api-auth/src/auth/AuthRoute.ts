@@ -20,7 +20,7 @@ export class AuthRoute implements Route {
   constructor() {
     this.router = Router()
     this.authController = new AuthController()
-    this.path = "/auth"
+    this.path = "/api/auth"
     this.schemaMiddleware = new SchemaMiddleware()
     this.sessionMiddleware = new SessionMiddleware()
     this.initRoutes()

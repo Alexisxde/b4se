@@ -42,27 +42,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     useEffect(() => {
       if (error && fieldRef.current) {
-        const prefersReducedMotion =
-          typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
-        if (!prefersReducedMotion) {
-          gsap.fromTo(
-            fieldRef.current,
-            { x: 0 },
-            {
-              keyframes: [
-                { x: -8, duration: 0.06 },
-                { x: 8, duration: 0.06 },
-                { x: -6, duration: 0.06 },
-                { x: 6, duration: 0.06 },
-                { x: -3, duration: 0.06 },
-                { x: 3, duration: 0.06 },
-                { x: 0, duration: 0.06 }
-              ],
-              ease: "power2.out"
-            }
-          )
-        }
+        gsap.fromTo(
+          fieldRef.current,
+          { x: 0 },
+          {
+            keyframes: [
+              { x: -8, duration: 0.06 },
+              { x: 8, duration: 0.06 },
+              { x: -6, duration: 0.06 },
+              { x: 6, duration: 0.06 },
+              { x: -3, duration: 0.06 },
+              { x: 3, duration: 0.06 },
+              { x: 0, duration: 0.06 }
+            ],
+            ease: "power2.out"
+          }
+        )
       }
     }, [error])
 
@@ -77,11 +72,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           ref={fieldRef}
           className={cn(
-            "relative flex flex-col justify-center bg-card text-card-foreground border border-border px-4 py-2.5 min-h-16 rounded-xl w-full transition-all duration-200 ease-in-out cursor-text",
-            "focus-within:ring-2 focus-within:ring-ring/50 focus-within:border-ring",
+            "relative flex flex-col justify-center bg-card border border-outline px-4 py-2.5 min-h-16 rounded-xl w-full max-w-64 transition-all duration-200 ease-in-out cursor-text focus-within:ring-1 focus-within:ring-ring/50",
             disabled && "opacity-50 cursor-not-allowed",
-            error &&
-              "border-destructive focus-within:ring-destructive/50 focus-within:border-destructive ring-1 ring-destructive/40",
+            error && "border-destructive focus-within:ring-destructive/50",
             fieldClassName
           )}
           onClick={(e) => {
@@ -94,15 +87,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <label
               htmlFor={id}
               className={cn(
-                "text-xs font-medium text-muted-foreground select-none cursor-pointer transition-colors",
+                "text-xs font-medium text-muted-foreground select-none cursor-pointer",
                 error && "text-destructive",
                 labelClassName
               )}>
               {label}
             </label>
-            {optional && <span className="text-[11px] text-muted-foreground/70 select-none">(Opcional)</span>}
+            {optional && <span className="text-[11px] text-muted-foreground select-none">(Opcional)</span>}
           </div>
-
           <div className="flex items-center gap-1.5 mt-0.5">
             {icon && (
               <div className="text-muted-foreground shrink-0 flex items-center justify-center pointer-events-none">
@@ -113,7 +105,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               ref={ref}
               id={id}
               disabled={disabled}
+              type="text"
               required={required}
+              autoComplete="off"
               aria-invalid={error ? true : undefined}
               aria-describedby={error ? errorId : undefined}
               aria-required={required ? true : undefined}
@@ -128,7 +122,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
           </div>
         </div>
-
         {error && (
           <p
             ref={errorRef}

@@ -6,3 +6,8 @@
     var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 }
+
+html {
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}

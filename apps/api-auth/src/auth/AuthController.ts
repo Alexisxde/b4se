@@ -44,7 +44,7 @@ export class AuthController {
         maxAge: 15 * 24 * 60 * 60 * 1000
       })
 
-      res.status(200).json({ success: true, data: { token, refreshToken }, error: null })
+      res.status(OK).json({ success: true, data: { token, refreshToken }, error: null })
     } catch (err) {
       next(err)
     }
@@ -54,7 +54,7 @@ export class AuthController {
     try {
       res.clearCookie("token", { httpOnly: true, secure: NODE_ENV === "production", sameSite: "none" })
       res.clearCookie("refreshToken", { httpOnly: true, secure: NODE_ENV === "production", sameSite: "none" })
-      res.status(200).json({ success: true, error: null })
+      res.status(OK).json({ success: true, error: null })
     } catch (err) {
       next(err)
     }
@@ -65,7 +65,7 @@ export class AuthController {
 
     try {
       const data = await this.authService.getById({ userId })
-      res.status(200).json({ success: true, data, error: null })
+      res.status(OK).json({ success: true, data, error: null })
     } catch (err) {
       next(err)
     }

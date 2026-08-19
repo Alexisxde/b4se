@@ -23,6 +23,14 @@
           "command": "node --watch -r @swc-node/register src/index.ts"
         }
       },
+      "dev": {
+        "continuous": true,
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/api-auth",
+          "command": "node --watch -r @swc-node/register src/index.ts"
+        }
+      },
       "start": {
         "dependsOn": ["build"],
         "executor": "nx:run-commands",
