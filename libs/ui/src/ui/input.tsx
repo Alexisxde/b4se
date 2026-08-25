@@ -77,11 +77,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             error && "border-destructive focus-within:ring-destructive/50",
             fieldClassName
           )}
-          onClick={(e) => {
-            if (e.target === fieldRef.current) {
-              const inputEl = fieldRef.current?.querySelector("input")
-              inputEl?.focus()
-            }
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+            const inputEl = e.currentTarget?.querySelector("input")
+            inputEl.focus()
           }}>
           <div className="flex items-center justify-between gap-2">
             <label

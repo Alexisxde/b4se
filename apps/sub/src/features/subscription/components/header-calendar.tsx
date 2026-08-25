@@ -1,7 +1,9 @@
 import { TextAnimate } from "@/components/ui/text-animate"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { monthStringLong } from "@/utils/month-string"
 import { Button } from "@b4se/ui"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import SubscriptionCreatePopover from "./subscription-create-popover"
 
 type Props = {
   total: string
@@ -12,13 +14,20 @@ type Props = {
 }
 
 export default function HeaderCalendar({ month, year, total, prevMonth, nextMonth }: Props) {
+  const isMobile = useIsMobile()
+
   return (
     <header className="relative flex flex-col items-center gap-1 px-3 mb-2">
+      {!isMobile && (
+        <div className="absolute w-full flex items-center justify-end">
+          <SubscriptionCreatePopover />
+        </div>
+      )}
       <h2 className="text-muted-foreground text-base font-medium tracking-tight">
         {monthStringLong(month)}, {year}
       </h2>
       <div className="flex items-center gap-4">
-        <Button onClick={prevMonth} variant="secondary" size="icon" className="p-6">
+        <Button ripple onClick={prevMonth} variant="outline">
           <ChevronLeft className="size-6" />
         </Button>
         <TextAnimate
@@ -28,7 +37,7 @@ export default function HeaderCalendar({ month, year, total, prevMonth, nextMont
           transition={{ ease: [0.175, 0.885, 0.32, 1.1] }}>
           {total}
         </TextAnimate>
-        <Button onClick={nextMonth} variant="secondary" size="icon" className="p-6">
+        <Button ripple onClick={nextMonth} variant="outline">
           <ChevronRight className="size-6" />
         </Button>
       </div>

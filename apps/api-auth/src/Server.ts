@@ -33,6 +33,7 @@ export class Server {
 
   public async listen(port: number, callback: () => void) {
     this.app.use((err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
+      console.log(err)
       res
         .status(err.status || INTERNAL_SERVER_ERROR)
         .json({ success: false, error: err.error || "Internal Server Error" })

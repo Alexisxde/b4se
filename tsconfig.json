@@ -11,6 +11,9 @@
     },
     {
       "path": "./apps/api-auth"
+    },
+    {
+      "path": "./libs/auth"
     }
   ],
   "compilerOptions": {}

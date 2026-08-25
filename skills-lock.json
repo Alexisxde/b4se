@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "nextauth": {
+      "source": "claude-dev-suite/claude-dev-suite",
+      "sourceType": "github",
+      "skillPath": "skills/authentication/nextauth/SKILL.md",
+      "computedHash": "8711d137ef1576321eae5f754a590c0945060faebb25564f057826cad6504ef8"
+    }
+  }
+}

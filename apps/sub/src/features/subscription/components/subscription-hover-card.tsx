@@ -1,9 +1,10 @@
 "use client"
-import type { Subcription } from "@/features/subscription/subscription"
+import type { Subcription } from "@/features/subscription/suscription"
 import { Button } from "@b4se/ui"
 import { AnimatePresence, motion } from "motion/react"
-import { useLayoutEffect, useMemo, useRef, useState } from "react"
+import { type MouseEvent, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { useRenewSubscription } from "../hooks/use-renew-subscription"
+import { SubscriptionDetailSheet } from "./subscription-detail-sheet"
 
 interface SubscriptionHoverCardProps {
   subscriptions: {
@@ -30,8 +31,8 @@ export function SubscriptionHoverCard({
   const cardRef = useRef<HTMLDivElement>(null)
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [activeDay, setActiveDay] = useState<number | null>(null)
-  // const [selectedId, setSelectedId] = useState<string | null>(null)
-  // const [isDetailOpen, setIsDetailOpen] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [isDetailOpen, setIsDetailOpen] = useState(false)
   const { mutate: renew, isPending } = useRenewSubscription()
 
   const sortedSubscriptions = useMemo(() => {
@@ -66,9 +67,9 @@ export function SubscriptionHoverCard({
     if (!isVisible && activeDay !== null) setActiveDay(null)
   }, [isVisible, day, mousePosition.x, mousePosition.y, activeDay])
 
-  const handleOpenDetail = (_id: string) => {
-    // setSelectedId(id)
-    // setIsDetailOpen(true)
+  const handleOpenDetail = (id: string) => {
+    setSelectedId(id)
+    setIsDetailOpen(true)
   }
 
   return (
@@ -80,7 +81,7 @@ export function SubscriptionHoverCard({
             ref={cardRef}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="fixed z-20 rounded-xl shadow-2xl border border-outline/50 bg-card overflow-hidden hidden sm:block min-w-70 max-w-[320px] pointer-events-auto"
+            className="fixed z-20 rounded-xl shadow-2xl border border-border/50 bg-card overflow-hidden hidden sm:block min-w-70 max-w-[320px] pointer-events-auto"
             style={{
               left: coords.x,
               top: coords.y,
@@ -91,7 +92,7 @@ export function SubscriptionHoverCard({
             exit={{ opacity: 0, scale: 0.95, y: 10, filter: "blur(8px)" }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}>
             <div className="p-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between border-b border-outline/50 pb-2">
+              <div className="flex items-center justify-between border-b border-border/50 pb-2">
                 <span className="text-sm font-semibold text-foreground">Suscripciones del día {day}</span>
                 <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
                   {subscriptions.length}
@@ -142,7 +143,7 @@ export function SubscriptionHoverCard({
                             variant="outline"
                             size="sm"
                             className="h-7 px-2 text-[10px] font-semibold tracking-tight"
-                            onClick={(e) => {
+                            onClick={(e: MouseEvent) => {
                               e.stopPropagation()
                               renew(item.sub.id)
                             }}
@@ -159,7 +160,7 @@ export function SubscriptionHoverCard({
           </motion.div>
         )}
       </AnimatePresence>
-      {/* <SubscriptionDetailSheet id={selectedId} open={isDetailOpen} onOpenChange={setIsDetailOpen} /> */}
+      <SubscriptionDetailSheet id={selectedId} open={isDetailOpen} onOpenChange={setIsDetailOpen} />
     </>
   )
 }

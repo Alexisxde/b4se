@@ -1,6 +1,6 @@
-import QueryProvider from "@/providers/query-provider"
-import SessionProvider from "@/providers/session-provider"
-import ThemeProvider from "@/providers/theme-provider"
+import { QueryProvider } from "@/providers/query-provider"
+import { ThemeProvider } from "@/providers/theme-provider"
+import { AuthSessionProvider } from "@b4se/auth/react"
 import { DM_Sans } from "next/font/google"
 import { Toaster } from "sileo"
 import "./global.css"
@@ -20,12 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`dark ${dmSans.variable}`}>
       <body className="font-sans antialiased">
-        <SessionProvider>
+        <AuthSessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <QueryProvider>{children}</QueryProvider>
           </ThemeProvider>
           <Toaster position="top-right" theme="system" />
-        </SessionProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   )

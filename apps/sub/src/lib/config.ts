@@ -1,10 +1,12 @@
 import { z } from "zod"
 
 const envSchema = z.object({
-  DATABASE_URL: z.string(),
+  DATABASE_URL: z
+    .string()
+    .default("postgresql://subscriptionuser:subscriptionpass@localhost:5436/subscriptiondb?schema=public"),
   AUTH_API_URL: z.string().default("http://localhost:3001"),
   NEXT_PUBLIC_APP_URL: z.string().default("http://localhost:3000"),
-  NODE_ENV: z.string().default("production")
+  NODE_ENV: z.string().default("development")
 })
 
 const { error, success, data } = envSchema.safeParse(process.env)
