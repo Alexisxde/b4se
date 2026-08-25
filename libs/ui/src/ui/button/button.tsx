@@ -12,8 +12,8 @@ import {
   useCallback,
   useRef
 } from "react"
-import { gsap } from "../lib/gsap"
-import { cn } from "../lib/utils"
+import { gsap } from "../../lib/gsap"
+import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
   "relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 ease-in-out [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 overflow-hidden active:scale-[0.98] leading-none select-none",

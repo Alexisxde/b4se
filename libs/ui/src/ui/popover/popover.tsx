@@ -19,8 +19,8 @@ import React, {
   useRef,
   useState
 } from "react"
-import { gsap } from "../lib/gsap"
-import { cn } from "../lib/utils"
+import { gsap } from "../../lib/gsap"
+import { cn } from "../../lib/utils"
 
 interface PopoverContextValue {
   id: string

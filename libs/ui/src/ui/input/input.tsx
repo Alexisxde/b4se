@@ -1,7 +1,7 @@
 "use client"
 import { type ComponentPropsWithRef, forwardRef, type ReactNode, useEffect, useId, useRef } from "react"
-import { gsap } from "../lib/gsap"
-import { cn } from "../lib/utils"
+import { gsap } from "../../lib/gsap"
+import { cn } from "../../lib/utils"
 
 export interface InputProps extends Omit<ComponentPropsWithRef<"input">, "size"> {
   label: string
