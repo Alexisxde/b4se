@@ -4,9 +4,9 @@ import { getSubscriptions } from "../services/subcriptions"
 import type { Subcription } from "../suscription"
 
 export function useSubscriptions({ month, year }: { month: number; year: number }) {
-	return useQuery<Subcription[]>({
-		queryKey: [...SUBCRIPTIONS, { month, year }],
-		queryFn: () => getSubscriptions({ month, year }),
-		enabled: !!month && !!year
-	})
+  return useQuery<Subcription[]>({
+    queryKey: [...SUBCRIPTIONS, { month, year }],
+    queryFn: () => getSubscriptions({ month, year }),
+    enabled: !!month && !!year
+  })
 }

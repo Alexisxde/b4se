@@ -3,8 +3,8 @@ import { CATEGORIES } from "@/utils/query-key"
 import { getCategories } from "../services/categories"
 
 export function useSubscriptionCategory() {
-	return useQuery({
-		queryKey: CATEGORIES,
-		queryFn: getCategories
-	})
+  return useQuery({
+    queryKey: CATEGORIES,
+    queryFn: getCategories
+  })
 }

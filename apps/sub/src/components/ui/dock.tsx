@@ -15,150 +15,150 @@ const OUTPUT_RANGE_OPTION = [40, 80, 40]
 const OUTPUT_RANGE_ICON = [20, 40, 20]
 
 export interface DockProps {
-	children: ReactNode
-	className?: string
+  children: ReactNode
+  className?: string
 }
 
 export function Dock({ children, className }: DockProps) {
-	const mouseX = useMotionValue(Infinity)
-	const contextValue = useMemo(() => ({ mouseX }), [mouseX])
+  const mouseX = useMotionValue(Infinity)
+  const contextValue = useMemo(() => ({ mouseX }), [mouseX])
 
-	const handleMouseMove = useCallback((e: React.MouseEvent) => mouseX.set(e.pageX), [mouseX])
-	const handleMouseLeave = useCallback(() => mouseX.set(Infinity), [mouseX])
+  const handleMouseMove = useCallback((e: React.MouseEvent) => mouseX.set(e.pageX), [mouseX])
+  const handleMouseLeave = useCallback(() => mouseX.set(Infinity), [mouseX])
 
-	return (
-		<DockContext.Provider value={contextValue}>
-			<motion.div
-				onMouseMove={handleMouseMove}
-				onMouseLeave={handleMouseLeave}
-				className={cn(
-					"bg-card border border-border mx-auto flex h-16 items-end gap-4 rounded-4xl px-4 pb-3",
-					className
-				)}>
-				{children}
-			</motion.div>
-		</DockContext.Provider>
-	)
+  return (
+    <DockContext.Provider value={contextValue}>
+      <motion.div
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={cn(
+          "bg-card border border-border mx-auto flex h-16 items-end gap-4 rounded-4xl px-4 pb-3",
+          className
+        )}>
+        {children}
+      </motion.div>
+    </DockContext.Provider>
+  )
 }
 
 function useDock() {
-	const context = useContext(DockContext)
-	if (!context) throw new Error("useDock must be used within a DockProvider")
-	return context
+  const context = useContext(DockContext)
+  if (!context) throw new Error("useDock must be used within a DockProvider")
+  return context
 }
 
 export interface DockAnchorProps extends Option {
-	href: string
-	className?: string
+  href: string
+  className?: string
 }
 
 export const DockAnchor = memo(({ title, icon, href, className }: DockAnchorProps) => {
-	const [isHovered, setIsHovered] = useState(false)
-	const ref = useRef<HTMLDivElement | null>(null!)
-	const { mouseX } = useDock()
+  const [isHovered, setIsHovered] = useState(false)
+  const ref = useRef<HTMLDivElement | null>(null!)
+  const { mouseX } = useDock()
 
-	const distance = useTransform(mouseX, (val) => {
-		const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
-		return val - bounds.x - bounds.width / 2
-	})
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
+    return val - bounds.x - bounds.width / 2
+  })
 
-	const widthTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
-	const heightTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
+  const widthTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
+  const heightTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
 
-	const widthTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
-	const heightTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
+  const widthTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
+  const heightTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
 
-	const width = useSpring(widthTransform, TRANSITION)
-	const height = useSpring(heightTransform, TRANSITION)
+  const width = useSpring(widthTransform, TRANSITION)
+  const height = useSpring(heightTransform, TRANSITION)
 
-	const widthIcon = useSpring(widthTransformIcon, TRANSITION)
-	const heightIcon = useSpring(heightTransformIcon, TRANSITION)
+  const widthIcon = useSpring(widthTransformIcon, TRANSITION)
+  const heightIcon = useSpring(heightTransformIcon, TRANSITION)
 
-	const handleMouseEnter = useCallback(() => setIsHovered(true), [])
-	const handleMouseLeave = useCallback(() => setIsHovered(false), [])
+  const handleMouseEnter = useCallback(() => setIsHovered(true), [])
+  const handleMouseLeave = useCallback(() => setIsHovered(false), [])
 
-	return (
-		<a href={href}>
-			<motion.div
-				ref={ref}
-				style={{ width, height }}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				className={cn("bg-secondary relative flex aspect-square items-center justify-center rounded-full", className)}>
-				<AnimatePresence>
-					{isHovered ? (
-						<motion.div
-							initial={{ opacity: 0, y: 10, x: "-50%" }}
-							animate={{ opacity: 1, y: 0, x: "-50%" }}
-							exit={{ opacity: 0, y: 2, x: "-50%" }}
-							className="bg-secondary text-primary absolute -top-7 left-1/2 w-fit rounded-md px-2 py-0.5 text-xs whitespace-pre">
-							{title}
-						</motion.div>
-					) : null}
-				</AnimatePresence>
-				<motion.div style={{ width: widthIcon, height: heightIcon }} className="flex items-center justify-center">
-					{icon}
-				</motion.div>
-			</motion.div>
-		</a>
-	)
+  return (
+    <a href={href}>
+      <motion.div
+        ref={ref}
+        style={{ width, height }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={cn("bg-secondary relative flex aspect-square items-center justify-center rounded-full", className)}>
+        <AnimatePresence>
+          {isHovered ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, x: "-50%" }}
+              exit={{ opacity: 0, y: 2, x: "-50%" }}
+              className="bg-secondary text-primary absolute -top-7 left-1/2 w-fit rounded-md px-2 py-0.5 text-xs whitespace-pre">
+              {title}
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+        <motion.div style={{ width: widthIcon, height: heightIcon }} className="flex items-center justify-center">
+          {icon}
+        </motion.div>
+      </motion.div>
+    </a>
+  )
 })
 
 export interface DockButtonProps extends Option {
-	onClick: () => unknown
-	className?: string
+  onClick: () => unknown
+  className?: string
 }
 
 export const DockButton = memo(({ title, icon, className, onClick }: DockButtonProps) => {
-	const [isHovered, setIsHovered] = useState(false)
-	const ref = useRef<HTMLDivElement | null>(null!)
-	const { mouseX } = useDock()
+  const [isHovered, setIsHovered] = useState(false)
+  const ref = useRef<HTMLDivElement | null>(null!)
+  const { mouseX } = useDock()
 
-	const distance = useTransform(mouseX, (val) => {
-		const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
-		return val - bounds.x - bounds.width / 2
-	})
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 }
+    return val - bounds.x - bounds.width / 2
+  })
 
-	const widthTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
-	const heightTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
+  const widthTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
+  const heightTransform = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_OPTION)
 
-	const widthTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
-	const heightTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
+  const widthTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
+  const heightTransformIcon = useTransform(distance, INPUT_RANGE, OUTPUT_RANGE_ICON)
 
-	const width = useSpring(widthTransform, TRANSITION)
-	const height = useSpring(heightTransform, TRANSITION)
+  const width = useSpring(widthTransform, TRANSITION)
+  const height = useSpring(heightTransform, TRANSITION)
 
-	const widthIcon = useSpring(widthTransformIcon, TRANSITION)
-	const heightIcon = useSpring(heightTransformIcon, TRANSITION)
+  const widthIcon = useSpring(widthTransformIcon, TRANSITION)
+  const heightIcon = useSpring(heightTransformIcon, TRANSITION)
 
-	const handleMouseEnter = useCallback(() => setIsHovered(true), [])
-	const handleMouseLeave = useCallback(() => setIsHovered(false), [])
+  const handleMouseEnter = useCallback(() => setIsHovered(true), [])
+  const handleMouseLeave = useCallback(() => setIsHovered(false), [])
 
-	return (
-		<button onClick={onClick} className="cursor-pointer">
-			<motion.div
-				ref={ref}
-				style={{ width, height }}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
-				className={cn("bg-secondary relative flex aspect-square items-center justify-center rounded-full", className)}>
-				<AnimatePresence>
-					{isHovered ? (
-						<motion.div
-							initial={{ opacity: 0, y: 10, x: "-50%" }}
-							animate={{ opacity: 1, y: 0, x: "-50%" }}
-							exit={{ opacity: 0, y: 2, x: "-50%" }}
-							className="bg-secondary text-primary absolute -top-7 left-1/2 w-fit rounded-md px-2 py-0.5 text-xs whitespace-pre">
-							{title}
-						</motion.div>
-					) : null}
-				</AnimatePresence>
-				<motion.div style={{ width: widthIcon, height: heightIcon }} className="flex items-center justify-center">
-					{icon}
-				</motion.div>
-			</motion.div>
-		</button>
-	)
+  return (
+    <button onClick={onClick} className="cursor-pointer">
+      <motion.div
+        ref={ref}
+        style={{ width, height }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={cn("bg-secondary relative flex aspect-square items-center justify-center rounded-full", className)}>
+        <AnimatePresence>
+          {isHovered ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10, x: "-50%" }}
+              animate={{ opacity: 1, y: 0, x: "-50%" }}
+              exit={{ opacity: 0, y: 2, x: "-50%" }}
+              className="bg-secondary text-primary absolute -top-7 left-1/2 w-fit rounded-md px-2 py-0.5 text-xs whitespace-pre">
+              {title}
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+        <motion.div style={{ width: widthIcon, height: heightIcon }} className="flex items-center justify-center">
+          {icon}
+        </motion.div>
+      </motion.div>
+    </button>
+  )
 })
 
 Dock.Anchor = DockAnchor

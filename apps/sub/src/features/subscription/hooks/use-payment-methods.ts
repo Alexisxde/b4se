@@ -4,8 +4,8 @@ import { getPaymentMethods } from "../services/payment-methods"
 import type { PaymentMethod } from "../suscription"
 
 export function useSubscriptionPaymentMethods() {
-	return useQuery<PaymentMethod[]>({
-		queryKey: PAYMENT_METHODS,
-		queryFn: getPaymentMethods
-	})
+  return useQuery<PaymentMethod[]>({
+    queryKey: PAYMENT_METHODS,
+    queryFn: getPaymentMethods
+  })
 }
