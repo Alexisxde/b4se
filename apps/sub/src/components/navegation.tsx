@@ -20,12 +20,16 @@ export default function Navigation() {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <Popover>
-          <Popover.Trigger asChild>
-            <SidebarButton title="Opciones" />
-          </Popover.Trigger>
+        <Popover side="right" align="end" sideOffset={12}>
+          <Popover.Trigger render={<SidebarButton title="Opciones" />} />
           <Popover.Content>
-            <div className="flex flex-col gap-1"></div>
+            <Popover.Header>
+              <Popover.Title>Opciones</Popover.Title>
+              <Popover.Description>Preferencias de tu cuenta</Popover.Description>
+            </Popover.Header>
+            <div className="flex flex-col gap-1 py-1">
+              <span className="text-xs text-muted-foreground">Sesión activa</span>
+            </div>
           </Popover.Content>
         </Popover>
       </SidebarFooter>
