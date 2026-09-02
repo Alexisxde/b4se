@@ -1,10 +1,10 @@
 // Core NextAuth
-export { authOptions } from "@/core/auth-options"
-export { getServerAuthSession } from "@/core/session"
+export { authOptions } from "./core/auth-options"
+export { getServerAuthSession } from "./core/session"
 
 // API & Axios
-export { authApi } from "@/api/auth-client"
-export { default as authApiClient, getAuthApiBaseUrl } from "@/api/axios"
+export { authApi } from "./api/auth-client"
+export { default as authApiClient, getAuthApiBaseUrl } from "./api/axios"
 
 // Schemas
 export {
@@ -14,18 +14,18 @@ export {
   type LoginCredentials,
   type RegisterCredentials,
   type UpdateCredentials
-} from "@/schemas/auth-schema"
+} from "./schemas/auth-schema"
 
 // Components & Providers
-export { AuthSessionProvider, default as SessionProvider } from "@/components/session-provider"
-export type { AuthSessionProviderProps } from "@/components/session-provider"
+export { AuthSessionProvider, default as SessionProvider } from "./components/session-provider"
+export type { AuthSessionProviderProps } from "./components/session-provider"
 
 // Middleware
-export { createAuthMiddleware } from "@/middleware/auth-middleware"
-export type { CreateAuthMiddlewareOptions } from "@/middleware/auth-middleware"
+export { createAuthMiddleware } from "./middleware/auth-middleware"
+export type { CreateAuthMiddlewareOptions } from "./middleware/auth-middleware"
 
 // Types
-export type * from "@/types"
+export type * from "./types"
 
 // Client helpers
 export { getSession, signIn, signOut, useSession } from "next-auth/react"

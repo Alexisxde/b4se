@@ -24,14 +24,14 @@ export class AuthService {
   public async validate({ email, password }: Pick<User, "email" | "password">) {
     const user = await prisma.user.findUnique({
       where: { email },
-      select: { id: true, name: true, password: true, role: true }
+      select: { id: true, name: true, password: true, role: true, avatar: { select: { id: true, url: true } } }
     })
 
     if (!user) throw { status: NOT_FOUND, error: "Usuario no encontrado. Por favor intentelo de nuevo." }
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) throw { status: NOT_FOUND, error: "Las credenciales proporcionadas no son válidas." }
     if (!user) throw { status: NOT_FOUND, error: "Usuario no encontrado." }
-    return { id: user.id, role: user.role }
+    return { id: user.id, name: user.name, role: user.role, image: user.avatar?.url || null }
   }
 
   public async getById({ userId }: { userId: string }) {

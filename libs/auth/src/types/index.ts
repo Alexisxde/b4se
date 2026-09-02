@@ -3,13 +3,11 @@ export interface AuthUser {
   name: string
   email: string
   role: string
-  avatar?: {
-    id: string
-    url: string
-  } | null
+  image: string | null
 }
 
 export interface AuthTokens {
+  user: AuthUser
   token: string
   refreshToken: string
 }

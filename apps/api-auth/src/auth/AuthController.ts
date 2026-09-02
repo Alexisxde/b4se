@@ -27,7 +27,7 @@ export class AuthController {
     const { email, password } = req.body as LoginUser
 
     try {
-      const { id, role } = await this.authService.validate({ email, password })
+      const { id, name, role, image } = await this.authService.validate({ email, password })
       const token = jwt.sign({ id, role }, JWT_SECRET, { expiresIn: "8h" })
       const refreshToken = jwt.sign({ id, role }, JWT_SECRET_REFRESHTOKEN, { expiresIn: "15d" })
 
@@ -44,7 +44,9 @@ export class AuthController {
         maxAge: 15 * 24 * 60 * 60 * 1000
       })
 
-      res.status(OK).json({ success: true, data: { token, refreshToken }, error: null })
+      res
+        .status(OK)
+        .json({ success: true, data: { user: { id, email, name, role, image }, token, refreshToken }, error: null })
     } catch (err) {
       next(err)
     }
