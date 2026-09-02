@@ -1,10 +1,10 @@
 "use client"
+import { signIn } from "@b4se/auth"
 import { Button, Input, Popover, toast } from "@b4se/ui"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2Icon } from "lucide-react"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-// import { useState } from "react"
+import { useState } from "react"
 import { Controller, type SubmitHandler, useForm } from "react-hook-form"
 import type z from "zod"
 import { userLoginSchema } from "../schemas/login"
@@ -12,7 +12,7 @@ import { userLoginSchema } from "../schemas/login"
 type FormData = z.infer<typeof userLoginSchema>
 
 export function SignInForm() {
-  // const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const {
     handleSubmit,
@@ -36,11 +36,9 @@ export function SignInForm() {
   }
 
   return (
-    <Popover height={250} maxWidth={250}>
-      <Popover.Trigger asChild>
-        <Button>Comenzar</Button>
-      </Popover.Trigger>
-      <Popover.Content>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <Popover.Trigger render={<Button>Comenzar</Button>}></Popover.Trigger>
+      <Popover.Content className="w-125 h-64">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" autoComplete="off" noValidate>
           <Controller
             name="email"
