@@ -1,6 +1,7 @@
 export * from "./lib/utils"
 export { Button } from "./ui/button/button"
+export { Dialog } from "./ui/dialog/dialog"
 export { Input } from "./ui/input/input"
-export { Popover } from "./ui/popover/popover"
+export * from "./ui/popover"
 export { Textarea } from "./ui/textarea/textarea"
 export * from "./ui/toast"

@@ -69,7 +69,7 @@
   --chart-3: oklch(0.55 0.22 263);
   --chart-4: oklch(0.49 0.22 264);
   --chart-5: oklch(0.42 0.18 266);
-  
+
   --scrollbar-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -79,7 +79,7 @@
 
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  
+
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 
@@ -123,4 +123,36 @@
       opacity: 0;
     }
   }
+}
+
+:root {
+  --dialog-width: min(400px, calc(100vw - 48px));
+  --dialog-max-height: calc(100dvh - 48px);
+  --dialog-radius: 26px;
+  --dialog-gap: 16px;
+  --dialog-padding: 16px;
+  --dialog-surface: var(--popover, Canvas);
+  --dialog-foreground: var(--popover-foreground, CanvasText);
+  --dialog-muted-foreground: var(--muted-foreground, GrayText);
+  --dialog-backdrop: rgb(0 0 0 / 0.12);
+  --dialog-shadow: 0 0 16px rgb(0 0 0 / 0.16);
+
+  --popover-width: min(360px, calc(100vw - 32px));
+  --popover-max-height: min(480px, calc(100dvh - 32px));
+  --popover-radius: 18px;
+  --popover-gap: 12px;
+  --popover-padding: 16px;
+  --popover-surface: var(--popover, Canvas);
+  --popover-foreground: var(--popover-foreground, CanvasText);
+  --popover-muted-foreground: var(--muted-foreground, GrayText);
+  --popover-backdrop: rgb(0 0 0 / 0.08);
+  --popover-shadow: 0 12px 32px -4px rgb(0 0 0 / 0.15), 0 0 0 1px rgb(0 0 0 / 0.08);
+}
+
+.dark {
+  --dialog-backdrop: rgb(0 0 0 / 0.4);
+  --dialog-shadow: 0 0 24px rgb(0 0 0 / 0.45);
+
+  --popover-backdrop: rgb(0 0 0 / 0.25);
+  --popover-shadow: 0 16px 40px -4px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.1);
 }

@@ -24,6 +24,11 @@
       "import": "./src/ui/input/index.ts",
       "default": "./src/ui/input/index.ts"
     },
+    "./dialog": {
+      "types": "./src/ui/dialog/index.ts",
+      "import": "./src/ui/dialog/index.ts",
+      "default": "./src/ui/dialog/index.ts"
+    },
     "./popover": {
       "types": "./src/ui/popover/index.ts",
       "import": "./src/ui/popover/index.ts",
