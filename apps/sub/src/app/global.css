@@ -13,4 +13,5 @@ html {
   transition:
     background 0.4s ease,
     color 0.4s ease;
+  user-select: none;
 }

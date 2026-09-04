@@ -279,7 +279,6 @@ function DialogClose({ render, className, onClick, children, ...props }: DialogC
   }
 
   if (render) {
-    // Same wrapper, same reason — see DialogTrigger.
     const { onClick: closeOnClick, ...attrs } = shared
     return (
       <span className="contents" onClick={closeOnClick}>
@@ -433,7 +432,7 @@ function DialogContent({
             {showCloseButton && (
               <DialogClose
                 aria-label="Close"
-                className="absolute top-3 right-3 inline-flex size-8 items-center justify-center rounded-full opacity-60 transition-opacity hover:opacity-100 after:absolute after:-inset-1.5 after:content-['']">
+                className="absolute top-3 right-3 inline-flex size-7 items-center justify-center rounded-full text-muted-foreground opacity-70 transition-all hover:opacity-100 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring after:absolute after:-inset-1.5 after:content-['']">
                 <X className="size-4" />
               </DialogClose>
             )}

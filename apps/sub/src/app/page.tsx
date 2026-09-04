@@ -40,7 +40,7 @@ export default function Home() {
             </Dialog.Content>
           </Dialog>
 
-          <Popover side="right" align="start">
+          <Popover align="center">
             <Popover.Trigger render={<Button variant="secondary">Open Popover</Button>} />
             <Popover.Content>
               <Popover.Header>

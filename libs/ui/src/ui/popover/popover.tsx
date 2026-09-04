@@ -23,7 +23,15 @@ import {
   useRef,
   useState
 } from "react"
-import { type MorphPopoverOptions, type MorphPopoverRefs, useMorphPopover } from "./use-popover"
+import {
+  type Align,
+  ALIGN,
+  type MorphPopoverOptions,
+  type MorphPopoverRefs,
+  type Side,
+  SIDE,
+  useMorphPopover
+} from "./use-popover"
 
 /* ---------------------------------------------------------------------------
  * Popover — a floating popover that morphs out of its own trigger using GSAP Flip.
@@ -77,11 +85,11 @@ function Popover({
   onOpenChange,
   openDuration,
   closeDuration,
-  side = "bottom",
-  align = "center",
+  side = SIDE.INSET as Side,
+  align = ALIGN.CENTER as Align,
   sideOffset = 8,
   alignOffset = 0,
-  collisionPadding = 12,
+  collisionPadding = 16,
   dismissOnOutsideClick = true,
   dismissOnEscape = true,
   hideTrigger = true,

@@ -2,8 +2,11 @@
 import * as React from "react"
 import { EASE_BLUR, EASE_IN, EASE_OUT, ensureEases, ensurePlugins, Flip, gsap } from "../../lib/gsap"
 
-export type Side = "top" | "bottom" | "left" | "right"
-export type Align = "start" | "center" | "end"
+export const SIDE = { TOP: "top", BOTTOM: "bottom", LEFT: "left", RIGHT: "right", INSET: "inset" }
+export const ALIGN = { START: "start", CENTER: "center", END: "end" }
+
+export type Side = (typeof SIDE)[keyof typeof SIDE]
+export type Align = (typeof ALIGN)[keyof typeof ALIGN]
 
 export type MorphPopoverOptions = {
   /** Seconds. The trigger → popover morph duration. */
@@ -67,11 +70,11 @@ export interface FloatingRect {
 const DEFAULTS = {
   openDuration: 0.55,
   closeDuration: 0.35,
-  side: "bottom" as Side,
-  align: "center" as Align,
-  sideOffset: 8,
+  side: SIDE.INSET,
+  align: ALIGN.START,
+  sideOffset: 16,
   alignOffset: 0,
-  collisionPadding: 12,
+  collisionPadding: 16,
   dismissOnOutsideClick: true,
   dismissOnEscape: true,
   hideTrigger: true,
@@ -130,78 +133,59 @@ export function computeFloatingPosition(
   let actualSide = side
   const actualAlign = align
 
-  // Collision detection and flipping on primary axis
-  if (side === "bottom") {
-    const spaceBottom = vh - tRect.bottom - sideOffset - pad
-    const spaceTop = tRect.top - sideOffset - pad
-    if (spaceBottom < height && spaceTop > spaceBottom) {
-      actualSide = "top"
-    }
-  } else if (side === "top") {
+  if (side === SIDE.TOP) {
     const spaceTop = tRect.top - sideOffset - pad
     const spaceBottom = vh - tRect.bottom - sideOffset - pad
-    if (spaceTop < height && spaceBottom > spaceTop) {
-      actualSide = "bottom"
-    }
-  } else if (side === "right") {
-    const spaceRight = vw - tRect.right - sideOffset - pad
-    const spaceLeft = tRect.left - sideOffset - pad
-    if (spaceRight < width && spaceLeft > spaceRight) {
-      actualSide = "left"
-    }
-  } else if (side === "left") {
+    if (spaceTop < height && spaceBottom > spaceTop) actualSide = SIDE.BOTTOM
+  }
+  if (side === SIDE.LEFT) {
     const spaceLeft = tRect.left - sideOffset - pad
     const spaceRight = vw - tRect.right - sideOffset - pad
-    if (spaceLeft < width && spaceRight > spaceLeft) {
-      actualSide = "right"
-    }
+    if (spaceLeft < width && spaceRight > spaceLeft) actualSide = SIDE.RIGHT
+  }
+  if (side === SIDE.INSET) actualSide = SIDE.INSET
+  if (side === SIDE.RIGHT) {
+    const spaceRight = vw - tRect.right - sideOffset - pad
+    const spaceLeft = tRect.left - sideOffset - pad
+    if (spaceRight < width && spaceLeft > spaceRight) actualSide = SIDE.LEFT
+  }
+  if (side === SIDE.BOTTOM) {
+    const spaceBottom = vh - tRect.bottom - sideOffset - pad
+    const spaceTop = tRect.top - sideOffset - pad
+    if (spaceBottom < height && spaceTop > spaceBottom) actualSide = SIDE.TOP
   }
 
   let top = 0
   let left = 0
 
-  if (actualSide === "bottom") {
-    top = tRect.bottom + sideOffset
-  } else if (actualSide === "top") {
-    top = tRect.top - sideOffset - height
-  } else if (actualSide === "left") {
-    left = tRect.left - sideOffset - width
-  } else if (actualSide === "right") {
-    left = tRect.right + sideOffset
-  }
+  if (actualSide === SIDE.TOP) top = tRect.top - sideOffset - height
+  if (actualSide === SIDE.BOTTOM) top = tRect.bottom + sideOffset
+  if (actualSide === SIDE.LEFT) left = tRect.left - sideOffset - width
+  if (actualSide === SIDE.RIGHT) left = tRect.right + sideOffset
+  if (actualSide === SIDE.INSET) top = tRect.top + (tRect.height - height) / 2 + sideOffset
 
-  // Cross-axis alignment calculation
-  if (actualSide === "top" || actualSide === "bottom") {
-    if (actualAlign === "start") {
-      left = tRect.left + alignOffset
-    } else if (actualAlign === "center") {
-      left = tRect.left + (tRect.width - width) / 2 + alignOffset
-    } else if (actualAlign === "end") {
-      left = tRect.right - width - alignOffset
-    }
-
-    if (left + width > vw - pad) {
-      left = Math.max(pad, vw - pad - width)
-    }
-    if (left < pad) {
-      left = pad
-    }
+  if (actualSide === SIDE.TOP || actualSide === SIDE.BOTTOM) {
+    if (actualAlign === ALIGN.START) left = tRect.left + alignOffset
+    if (actualAlign === ALIGN.CENTER) left = tRect.left + (tRect.width - width) / 2 + alignOffset
+    if (actualAlign === ALIGN.END) left = tRect.right - width - alignOffset
+    if (left + width > vw - pad) left = Math.max(pad, vw - pad - width)
+    if (left < pad) left = pad
     top = Math.max(pad, Math.min(vh - pad - height, top))
-  } else {
-    if (actualAlign === "start") {
-      top = tRect.top + alignOffset
-    } else if (actualAlign === "center") {
-      top = tRect.top + (tRect.height - height) / 2 + alignOffset
-    } else if (actualAlign === "end") {
-      top = tRect.bottom - height - alignOffset
-    }
-
-    if (top + height > vh - pad) {
-      top = Math.max(pad, vh - pad - height)
-    }
-    if (top < pad) {
-      top = pad
-    }
+  }
+  if (actualSide === SIDE.INSET) {
+    if (actualAlign === ALIGN.START) left = tRect.left - tRect.width - width / 2 + alignOffset
+    if (actualAlign === ALIGN.CENTER) left = tRect.left + (tRect.width - width) / 2 + alignOffset
+    if (actualAlign === ALIGN.END) left = tRect.left - tRect.width + width / 2 + alignOffset
+    if (left + width > vw - pad) left = Math.max(pad, vw - pad - width)
+    if (left < pad) left = pad
+    top = Math.max(pad, Math.min(vh - pad - height, top))
+  }
+  if (actualSide === SIDE.LEFT || actualSide === SIDE.RIGHT) {
+    if (actualAlign === ALIGN.START) top = tRect.top + alignOffset
+    if (actualAlign === ALIGN.CENTER) top = tRect.top + (tRect.height - height) / 2 + alignOffset
+    if (actualAlign === ALIGN.END) top = tRect.bottom - height - alignOffset
+    if (top + height > vh - pad) top = Math.max(pad, vh - pad - height)
+    if (top < pad) top = pad
     left = Math.max(pad, Math.min(vw - pad - width, left))
   }
 
@@ -272,60 +256,6 @@ export function useMorphPopover(options: MorphPopoverOptions = {}) {
     [setTrigger, setTriggerHost, setPopover, setBackdrop, setSurface, setWindow]
   )
 
-  // const refs = React.useMemo<MorphPopoverRefs>(
-  //   () => ({
-  //     trigger: {
-  //       get current() {
-  //         return nodes.current.trigger
-  //       },
-  //       set current(el) {
-  //         nodes.current.trigger = el
-  //       }
-  //     },
-  //     triggerHost: {
-  //       get current() {
-  //         return nodes.current.triggerHost
-  //       },
-  //       set current(el) {
-  //         nodes.current.triggerHost = el
-  //       }
-  //     },
-  //     popover: {
-  //       get current() {
-  //         return nodes.current.popover
-  //       },
-  //       set current(el) {
-  //         nodes.current.popover = el
-  //       }
-  //     },
-  //     backdrop: {
-  //       get current() {
-  //         return nodes.current.backdrop
-  //       },
-  //       set current(el) {
-  //         nodes.current.backdrop = el
-  //       }
-  //     },
-  //     surface: {
-  //       get current() {
-  //         return nodes.current.surface
-  //       },
-  //       set current(el) {
-  //         nodes.current.surface = el
-  //       }
-  //     },
-  //     window: {
-  //       get current() {
-  //         return nodes.current.window
-  //       },
-  //       set current(el) {
-  //         nodes.current.window = el
-  //       }
-  //     }
-  //   }),
-  //   []
-  // )
-
   const reducedRef = React.useRef(false)
   React.useEffect(() => {
     const mm = gsap.matchMedia()
@@ -391,9 +321,8 @@ export function useMorphPopover(options: MorphPopoverOptions = {}) {
     const surface = nodes.current.surface
     const win = nodes.current.window
     if (!surface || !win) return
-    if (size) {
-      frozenRef.current = size
-    } else {
+    if (size) frozenRef.current = size
+    else {
       const r = surface.getBoundingClientRect()
       frozenRef.current = { w: r.width, h: r.height }
     }
@@ -710,9 +639,7 @@ export function useMorphPopover(options: MorphPopoverOptions = {}) {
     )
 
     tl.eventCallback("onUpdate", () => fitFrame())
-    if (backdrop) {
-      tl.to(backdrop, { opacity: 0, duration: 0.2, ease: "power1.in" }, D * 0.6)
-    }
+    if (backdrop) tl.to(backdrop, { opacity: 0, duration: 0.2, ease: "power1.in" }, D * 0.6)
   }, [isOpen, freezeChild, thawChild, fitFrame, getTrigger, open, revealTrigger])
 
   const toggle = React.useCallback(() => {
