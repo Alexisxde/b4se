@@ -35,23 +35,23 @@ export function SubscriptionDetailSheet({ id, open, onOpenChange }: Props) {
       </SheetHeader>
       {isLoading ? (
         <div className="space-y-3">
-          <Skeleton className="border border-border/20 h-22.5 rounded-2xl" />
+          <Skeleton className="border border-outline/20 h-22.5 rounded-2xl" />
           <div className="grid grid-cols-2 gap-3">
-            <Skeleton className="border border-border/20 h-19.25 rounded-2xl" />
-            <Skeleton className="border border-border/20 h-19.25 rounded-2xl" />
+            <Skeleton className="border border-outline/20 h-19.25 rounded-2xl" />
+            <Skeleton className="border border-outline/20 h-19.25 rounded-2xl" />
           </div>
           <div className="grid grid-cols-[1fr_auto] gap-3 w-full">
-            <Skeleton className="border border-border/20 h-19.25 rounded-2xl" />
-            <Skeleton className="border border-border/20 h-19.25 rounded-2xl w-20" />
+            <Skeleton className="border border-outline/20 h-19.25 rounded-2xl" />
+            <Skeleton className="border border-outline/20 h-19.25 rounded-2xl w-20" />
           </div>
           <Skeleton className="h-40 rounded-2xl" />
           <Skeleton className="h-24 rounded-2xl" />
         </div>
       ) : sub ? (
         <div className="space-y-3">
-          <div className="flex items-center gap-3 bg-muted/30 p-4 rounded-2xl border border-border/20">
+          <div className="flex items-center gap-3 bg-muted/30 p-4 rounded-2xl border border-outline/20">
             <div
-              className="size-14 flex items-center justify-center bg-muted rounded-2xl p-3 [&_svg]:size-full border border-border/50"
+              className="size-14 flex items-center justify-center bg-muted rounded-2xl p-3 [&_svg]:size-full border border-outline/50"
               dangerouslySetInnerHTML={{ __html: sub.service.logo ?? "" }}
             />
             <div>
@@ -63,27 +63,27 @@ export function SubscriptionDetailSheet({ id, open, onOpenChange }: Props) {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-border/20">
+            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-outline/20">
               <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Monto</span>
               <span className="text-xl font-medium text-foreground">${sub.history[0]?.amount.toFixed(2)}</span>
             </div>
-            <div className="bg-muted/30 p-4 rounded-2xl border border-border/20">
+            <div className="bg-muted/30 p-4 rounded-2xl border border-outline/20">
               <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Periodo</span>
               <span className="text-xl font-medium text-foreground">{stats?.period}</span>
             </div>
           </div>
           <div className="grid grid-cols-[1fr_auto] gap-3 w-full">
-            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-border/20">
+            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-outline/20">
               <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Pagó</span>
               <div className="flex items-center gap-3 mt-1">
                 <div
-                  className="size-14 flex items-center justify-center bg-card rounded-2xl p-3 [&_svg]:size-full border border-border/50"
+                  className="size-14 flex items-center justify-center bg-card rounded-2xl p-3 [&_svg]:size-full border border-outline/50"
                   dangerouslySetInnerHTML={{ __html: sub.history[0].paymentMethod.logo ?? "" }}
                 />
                 <span className="text-lg font-medium text-primary">{sub.history[0]?.paymentMethod.name}</span>
               </div>
             </div>
-            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-border/20">
+            <div className="w-full bg-muted/30 p-4 rounded-2xl border border-outline/20">
               <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Días restantes</span>
               <div className="flex items-center justify-center gap-1 mt-1">
                 <span className="text-3xl font-medium text-primary">
@@ -93,13 +93,13 @@ export function SubscriptionDetailSheet({ id, open, onOpenChange }: Props) {
               </div>
             </div>
           </div>
-          <div className="bg-muted/30 rounded-2xl border border-border/20 p-4">
+          <div className="bg-muted/30 rounded-2xl border border-outline/20 p-4">
             <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Estadísticas</span>
-            <div className="flex justify-between items-center border-b border-border py-2">
+            <div className="flex justify-between items-center border-b border-outlinepy-2">
               <span className="text-xs text-muted-foreground">Suscripción</span>
               <span className="text-xs font-medium text-foreground">{stats?.startDate}</span>
             </div>
-            <div className="flex justify-between items-center border-b border-border py-2">
+            <div className="flex justify-between items-center border-b border-outlinepy-2">
               <span className="text-xs text-muted-foreground">Vencimiento</span>
               <span className="text-xs font-medium text-foreground">{stats?.endDate}</span>
             </div>
@@ -108,7 +108,7 @@ export function SubscriptionDetailSheet({ id, open, onOpenChange }: Props) {
               <span className="text-xs font-medium text-foreground">${stats?.totalInvested.toFixed(2)}</span>
             </div>
           </div>
-          <div className="bg-muted/30 p-4 rounded-2xl border border-border/20">
+          <div className="bg-muted/30 p-4 rounded-2xl border border-outline/20">
             <span className="text-[10px] font-medium text-muted-foreground tracking-wider block">Observación</span>
             <p className="text-sm text-foreground/80 font-medium leading-relaxed">
               {sub.history[0].note || "Sin observación"}

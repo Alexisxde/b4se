@@ -81,7 +81,7 @@ export function SubscriptionHoverCard({
             ref={cardRef}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className="fixed z-20 rounded-xl shadow-2xl border border-border/50 bg-card overflow-hidden hidden sm:block min-w-70 max-w-[320px] pointer-events-auto"
+            className="fixed z-20 rounded-xl shadow-2xl border border-outline/50 bg-card overflow-hidden hidden sm:block min-w-70 max-w-[320px] pointer-events-auto"
             style={{
               left: coords.x,
               top: coords.y,
@@ -92,7 +92,7 @@ export function SubscriptionHoverCard({
             exit={{ opacity: 0, scale: 0.95, y: 10, filter: "blur(8px)" }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}>
             <div className="p-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between border-b border-border/50 pb-2">
+              <div className="flex items-center justify-between border-b border-outline/50 pb-2">
                 <span className="text-sm font-semibold text-foreground">Suscripciones del día {day}</span>
                 <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
                   {subscriptions.length}

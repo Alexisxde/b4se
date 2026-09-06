@@ -1,9 +1,7 @@
-import { TextAnimate } from "@/components/ui/text-animate"
-import { useIsMobile } from "@/hooks/use-mobile"
 import { monthStringLong } from "@/utils/month-string"
-import { Button } from "@b4se/ui"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import SubscriptionCreatePopover from "./subscription-create-popover"
+import { Button, Input, Popover } from "@b4se/ui"
+import { ArrowLeft, ArrowRight, Columns4, Grid3x3, SlidersHorizontal, SquareSplitVertical } from "lucide-react"
+import { SubscriptionCreatePopover } from "./subscription-create-popover"
 
 type Props = {
   total: string
@@ -13,34 +11,65 @@ type Props = {
   nextMonth: () => void
 }
 
-export default function HeaderCalendar({ month, year, total, prevMonth, nextMonth }: Props) {
-  const isMobile = useIsMobile()
-
+export default function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
   return (
-    <header className="relative flex flex-col items-center gap-1 px-3 mb-2">
-      {!isMobile && (
-        <div className="absolute w-full flex items-center justify-end">
-          <SubscriptionCreatePopover />
-        </div>
-      )}
-      <h2 className="text-muted-foreground text-base font-medium tracking-tight">
+    <header className="flex items-center justify-between mb-2">
+      <h2 className="text-muted-foreground text-2xl font-medium tracking-tight">
         {monthStringLong(month)}, {year}
       </h2>
-      <div className="flex items-center gap-4">
-        <Button ripple onClick={prevMonth} variant="outline">
-          <ChevronLeft className="size-6" />
-        </Button>
-        <TextAnimate
-          className="text-5xl md:text-6xl text-primary font-semibold"
-          duration={0.3}
-          getDelay={(i) => i * 0.05}
-          transition={{ ease: [0.175, 0.885, 0.32, 1.1] }}>
-          {total}
-        </TextAnimate>
-        <Button ripple onClick={nextMonth} variant="outline">
-          <ChevronRight className="size-6" />
-        </Button>
+      <div className="flex items-center gap-2">
+        <Popover>
+          <Popover.Trigger
+            render={
+              <Button variant="outline" className="rounded-full">
+                <SlidersHorizontal className="size-5" /> Filtros
+              </Button>
+            }
+          />
+          <Popover.Content>
+            <Popover.Header>
+              <Popover.Title className="flex items-center gap-2">
+                <SlidersHorizontal className="size-5" /> Filtros
+              </Popover.Title>
+            </Popover.Header>
+            <Popover.Body>
+              <Input label="Nombre" placeholder="Buscar por nombre..." />
+            </Popover.Body>
+            <Popover.Footer>
+              <Button variant="secondary">Limpiar filtros</Button>
+              <Button>Aplicar filtros</Button>
+            </Popover.Footer>
+          </Popover.Content>
+        </Popover>
+        <div className="bg-card space-x-0.5 px-1.5 py-1 rounded-full">
+          <Button variant="ghost" size="xs" className="rounded-full">
+            <SquareSplitVertical className="size-5" />
+          </Button>
+          <Button variant="ghost" size="xs" className="rounded-full">
+            <Columns4 className="size-5" />
+          </Button>
+          <Button variant="secondary" size="xs" className="rounded-full">
+            <Grid3x3 className="size-5" />
+          </Button>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Button variant="secondary" size="icon" onClick={prevMonth}>
+            <ArrowLeft className="size-5" />
+          </Button>
+          <Button variant="secondary" size="icon" onClick={nextMonth}>
+            <ArrowRight className="size-5" />
+          </Button>
+        </div>
+        <SubscriptionCreatePopover />
       </div>
     </header>
   )
 }
+
+// <TextAnimate
+//   className="text-5xl md:text-6xl text-primary font-semibold"
+//   duration={0.3}
+//   getDelay={(i) => i * 0.05}
+//   transition={{ ease: [0.175, 0.885, 0.32, 1.1] }}>
+//   {total}
+// </TextAnimate>

@@ -19,7 +19,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string
-      role?: string | null
+      role: string
     } & DefaultSession["user"]
     accessToken?: string
     refreshToken?: string
@@ -37,6 +37,6 @@ declare module "next-auth/jwt" {
 declare module "next-auth/adapters" {
   interface AdapterUser {
     id: string
-    role?: string | null
+    role: string
   }
 }

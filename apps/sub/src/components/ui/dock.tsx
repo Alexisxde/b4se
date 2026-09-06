@@ -32,7 +32,7 @@ export function Dock({ children, className }: DockProps) {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className={cn(
-          "bg-card border border-border mx-auto flex h-16 items-end gap-4 rounded-4xl px-4 pb-3",
+          "bg-card border border-outlinemx-auto flex h-16 items-end gap-4 rounded-4xl px-4 pb-3",
           className
         )}>
         {children}

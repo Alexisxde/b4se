@@ -1,10 +1,10 @@
 "use client"
 import { cn } from "@/lib/utils"
+import { Button } from "@b4se/ui"
 import { X } from "lucide-react"
 import { AnimatePresence, MotionConfig, motion, type Transition, type Variants } from "motion/react"
 import { createContext, isValidElement, useContext, useEffect, useId, useState } from "react"
 import { createPortal } from "react-dom"
-import { Button } from "@b4se/ui"
 
 type PopoverContextValue = {
   isOpen: boolean
@@ -160,7 +160,7 @@ function PopoverContent({ children, className, ...props }: PopoverContentProps) 
             role="dialog"
             aria-modal="true"
             className={cn(
-              "fixed overflow-hidden bg-popover border border-border/50 text-foreground shadow-lg p-8",
+              "fixed overflow-hidden bg-popover border border-outline/50 text-foreground shadow-lg p-8",
               className
             )}
             initial="initial"

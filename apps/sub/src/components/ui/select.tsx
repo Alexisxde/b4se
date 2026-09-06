@@ -158,7 +158,7 @@ export function SelectContent({ children, className, ...props }: SelectContentPr
           role="listbox"
           aria-modal="true"
           className={cn(
-            "absolute overflow-hidden border border-border bg-card text-primary shadow-md w-full h-auto p-4 z-10 rounded-3xl",
+            "absolute overflow-hidden border border-outline bg-card text-primary shadow-md w-full h-auto p-4 z-10 rounded-3xl",
             className
           )}
           initial="initial"

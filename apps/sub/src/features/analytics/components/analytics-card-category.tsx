@@ -66,7 +66,7 @@ export default function AnalyticsCardCategory({ month, year }: Props) {
                     dangerouslySetInnerHTML={{ __html: item.logo || "" }}
                   />
                   <span className="flex-1 text-muted-foreground text-[13px]">{item.name}</span>
-                  <span className="text-primary text-[13px] font-medium tabular-nums border-r pr-4 border-border">
+                  <span className="text-primary text-[13px] font-medium tabular-nums border-r pr-4 border-outline">
                     ${item.amount}
                   </span>
                   <span className="text-muted-foreground text-[12px] tabular-nums w-7 text-right">{item.pct}</span>

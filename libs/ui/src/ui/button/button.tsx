@@ -16,7 +16,7 @@ import { gsap } from "../../lib/gsap"
 import { cn } from "../../lib/utils"
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 ease-in-out [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 overflow-hidden active:scale-[0.98] leading-none select-none",
+  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 ease-in-out [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring/50 overflow-hidden active:scale-[0.98] leading-none select-none",
   {
     variants: {
       variant: {
@@ -29,11 +29,11 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline"
       },
       size: {
-        xs: "h-8 text-xs px-3 rounded-md gap-1 [&_svg]:size-3.5",
+        xs: "h-8 text-xs px-3 rounded-md gap-1",
         sm: "h-9 text-sm px-3.5 rounded-lg gap-1.5 [&_svg]:size-4",
         md: "h-10 text-sm px-4 rounded-xl gap-2 [&_svg]:size-4",
         lg: "h-12 text-base px-6 rounded-2xl gap-2.5 [&_svg]:size-5",
-        icon: "size-10 rounded-xl"
+        icon: "size-10 rounded-full [&_svg]:size-5"
       },
       disabled: {
         true: "opacity-50 cursor-not-allowed pointer-events-none"
@@ -65,7 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       disabled = false,
       asChild = false,
-      ripple = true,
+      ripple = false,
       type = "button",
       ...props
     },

@@ -40,7 +40,7 @@ export default function AnalyticsCardPayments({ month, year }: Props) {
                   dangerouslySetInnerHTML={{ __html: item.logo || "" }}
                 />
                 <span className="flex-1 text-muted-foreground text-[13px]">{item.name}</span>
-                <span className="text-primary font-medium text-[13px] tabular-nums border-r px-4 border-border">
+                <span className="text-primary font-medium text-[13px] tabular-nums border-r px-4 border-outline">
                   ${item.amount}
                 </span>
                 <span className="text-muted-foreground text-[12px] tabular-nums w-7 text-right">{item.pct}</span>

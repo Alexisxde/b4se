@@ -23,6 +23,7 @@ import {
   useRef,
   useState
 } from "react"
+import { Button } from "../button"
 import {
   type Align,
   ALIGN,
@@ -284,18 +285,9 @@ export type PopoverContentProps = ComponentProps<"div"> & {
   windowClassName?: string
   /** Classes for the backdrop element */
   backdropClassName?: string
-  /** Whether to show the default close (X) button */
-  showCloseButton?: boolean
 }
 
-function PopoverContent({
-  className,
-  windowClassName,
-  backdropClassName,
-  children,
-  showCloseButton = true,
-  ...props
-}: PopoverContentProps) {
+function PopoverContent({ className, windowClassName, backdropClassName, children, ...props }: PopoverContentProps) {
   const ctx = usePopover()
   const { dismissHandlers } = ctx
   const { popover: popoverRef, backdrop: backdropRef, surface: surfaceRef, window: windowRef } = ctx.refs
@@ -309,7 +301,7 @@ function PopoverContent({
       data-state={ctx.open ? "open" : "closed"}
       data-debug={ctx.debug ? "true" : undefined}
       {...dismissHandlers}
-      className={cn("fixed inset-0 z-50 overflow-visible pointer-events-none select-none", "outline-hidden")}>
+      className={cn("fixed inset-0 z-50 overflow-visible pointer-events-none", "outline-hidden")}>
       {/* Backdrop for outside click capture & subtle dimming */}
       <div
         ref={backdropRef}
@@ -331,8 +323,8 @@ function PopoverContent({
         data-slot="popover-content"
         style={{ visibility: "hidden", ...props.style }}
         className={cn(
-          "pointer-events-auto fixed z-1 box-border flex flex-col w-(--popover-width) max-h-(--popover-max-height)",
-          "overflow-hidden rounded-(--popover-radius) bg-(--popover-surface) text-popover-foreground",
+          "pointer-events-auto fixed z-1 box-border flex flex-col size-fit",
+          "overflow-hidden rounded-4xl bg-popover text-foreground",
           "border border-outline/40 shadow-(--popover-shadow)",
           ctx.debug && "outline-2 outline-fuchsia-500/80",
           className
@@ -343,27 +335,43 @@ function PopoverContent({
           ref={windowRef}
           data-slot="popover-window"
           className={cn(
-            "flex min-h-0 flex-1 origin-center flex-col gap-(--popover-gap) overflow-auto overscroll-contain p-(--popover-padding) text-sm select-text",
-            "rounded-(--popover-radius) bg-(--popover-surface)",
+            "flex min-h-0 flex-1 origin-center flex-col gap-4 overflow-auto overscroll-contain p-4 text-sm",
+            "rounded-4xl bg-popover text-foreground",
             ctx.debug && "outline-1 outline-emerald-400/80",
             windowClassName
           )}>
           {children}
-          {showCloseButton && (
-            <PopoverClose
-              aria-label="Close"
-              className="absolute top-3 right-3 inline-flex size-7 items-center justify-center rounded-full text-muted-foreground opacity-70 transition-all hover:opacity-100 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring after:absolute after:-inset-1.5 after:content-['']">
-              <X className="size-4" />
-            </PopoverClose>
-          )}
         </div>
       </div>
     </div>
   )
 }
 
-export function PopoverHeader({ className, ...props }: ComponentProps<"header">) {
-  return <header data-slot="popover-header" className={cn("flex flex-col gap-1 pr-6", className)} {...props} />
+export interface PopoverHeaderProps extends ComponentProps<"header"> {
+  showCloseButton?: boolean
+}
+
+export function PopoverHeader({ children, className, showCloseButton = true, ...props }: PopoverHeaderProps) {
+  return (
+    <div className="flex items-center justify-between">
+      <header data-slot="popover-header" className={cn("flex flex-col gap-1.5", className)} {...props}>
+        {children}
+      </header>
+      {showCloseButton && (
+        <PopoverClose
+          render={
+            <Button variant="ghost" size="icon" className="ml-4">
+              <X />
+            </Button>
+          }
+        />
+      )}
+    </div>
+  )
+}
+
+export function PopoverBody({ className, ...props }: ComponentProps<"section">) {
+  return <section data-slot="popover-body" className={cn("flex flex-col gap-2", className)} {...props} />
 }
 
 export function PopoverFooter({ className, ...props }: ComponentProps<"footer">) {
@@ -387,7 +395,7 @@ export function PopoverTitle({ className, ...props }: ComponentProps<"h2">) {
     <h2
       id={titleId}
       data-slot="popover-title"
-      className={cn("text-sm font-semibold leading-none tracking-tight text-foreground", className)}
+      className={cn("text-xl font-medium leading-none tracking-tight text-foreground", className)}
       {...props}
     />
   )
@@ -412,6 +420,7 @@ export function PopoverDescription({ className, ...props }: ComponentProps<"p">)
 
 Popover.Trigger = PopoverTrigger
 Popover.Header = PopoverHeader
+Popover.Body = PopoverBody
 Popover.Footer = PopoverFooter
 Popover.Title = PopoverTitle
 Popover.Description = PopoverDescription

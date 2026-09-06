@@ -94,7 +94,7 @@ export const DialogTrigger = memo(
           ref={triggerRef}
           layout="position"
           layoutId={`dialog-${uniqueId}`}
-          className={cn("focus:outline-none border-border bg-card rounded-xl border", childProps.className)}
+          className={cn("focus:outline-none border-outlinebg-card rounded-xl border", childProps.className)}
           variants={variants}
           {...childProps}
         />
@@ -182,7 +182,7 @@ export function DialogContent({ children, className, ...props }: DialogContentPr
       initial={{ opacity: 0, filter: "blur(4px)" }}
       animate={{ opacity: 1, filter: "blur(0px)" }}
       exit={{ opacity: 0, filter: "blur(4px)" }}
-      className={cn("bg-card border-border relative overflow-hidden rounded-lg border p-4", className)}
+      className={cn("bg-card border-outlinerelative overflow-hidden rounded-lg border p-4", className)}
       {...props}>
       {children}
     </motion.section>

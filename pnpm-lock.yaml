@@ -20,6 +20,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.9.1(@sinclair/typebox@0.34.52)(@standard-schema/spec@1.1.0)(ajv-formats@2.1.1(ajv@6.15.0))(ajv@6.15.0)(effect@3.21.0)(react-hook-form@7.85.0(react@19.2.8))(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
+      '@prisma/adapter-pg':
+        specifier: ^7.2.0
+        version: 7.9.1
       '@prisma/client':
         specifier: ^7.2.0
         version: 7.9.1(prisma@7.9.1(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3))(typescript@6.0.3)
@@ -159,9 +162,6 @@ importers:
 
   apps/api-auth:
     dependencies:
-      '@prisma/adapter-pg':
-        specifier: ^7.2.0
-        version: 7.9.1
       bcrypt:
         specifier: 6.0.0
         version: 6.0.0
@@ -205,15 +205,6 @@ importers:
       '@b4se/ui':
         specifier: workspace:*
         version: link:../../libs/ui
-      next:
-        specifier: ~16.1.6
-        version: 16.1.7(@babel/core@7.29.7)(babel-plugin-macros@3.1.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.102.0)
-      react:
-        specifier: ^19.0.0
-        version: 19.2.8
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.8(react@19.2.8)
 
   libs/auth:
     dependencies:

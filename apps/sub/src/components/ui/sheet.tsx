@@ -48,7 +48,7 @@ export function Sheet({ children, open, onOpenChange, className }: SheetProps) {
             exit={{ x: "101%", opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className={cn(
-              "relative h-full w-full sm:max-w-sm bg-popover rounded-4xl shadow-2xl border border-border/50 flex flex-col items-center overflow-hidden pointer-events-auto",
+              "relative h-full w-full sm:max-w-sm bg-popover rounded-4xl shadow-2xl border border-outline/50 flex flex-col items-center overflow-hidden pointer-events-auto",
               className
             )}>
             <button

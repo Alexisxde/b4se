@@ -135,7 +135,7 @@ export function SearchInput({
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: -10, filter: "blur(10px)" }}
             className={cn(
-              "absolute top-[calc(100%+8px)] left-0 w-full bg-card border border-border shadow-xl rounded-2xl z-20 overflow-hidden py-2",
+              "absolute top-[calc(100%+8px)] left-0 w-full bg-card border border-outline shadow-xl rounded-2xl z-20 overflow-hidden py-2",
               {
                 "top-[calc(100%-24px)]": error
               }

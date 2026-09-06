@@ -58,7 +58,7 @@ export function SubscriptionDaySheet({ subscriptions, day, month, open, onOpenCh
                 onClick={() => handleOpenDetail(item.sub.id)}
                 className="flex items-center gap-4 p-3 hover:bg-muted rounded-2xl cursor-pointer transition-colors">
                 <div
-                  className="size-12 flex items-center justify-center bg-card rounded-xl p-2.5 [&_svg]:size-full border border-border/50"
+                  className="size-12 flex items-center justify-center bg-card rounded-xl p-2.5 [&_svg]:size-full border border-outline/50"
                   dangerouslySetInnerHTML={{ __html: item.sub.service.logo ?? "" }}
                 />
                 <div className="flex flex-col flex-1">

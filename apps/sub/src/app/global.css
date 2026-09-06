@@ -14,4 +14,7 @@ html {
     background 0.4s ease,
     color 0.4s ease;
   user-select: none;
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }

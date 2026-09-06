@@ -1,6 +1,6 @@
 "use client"
-import { Button, type ButtonProps } from "@b4se/ui"
 import { cn } from "@/lib/utils"
+import { Button, type ButtonProps } from "@b4se/ui"
 import { motion } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -37,7 +37,7 @@ export function MenuContent({ children, className }: { children: React.ReactNode
   return (
     <div
       className={cn(
-        "bg-card border-border flex items-center justify-center gap-1 rounded-full border px-4 py-2 pointer-events-auto",
+        "bg-card border-outlineflex items-center justify-center gap-1 rounded-full border px-4 py-2 pointer-events-auto",
         className
       )}>
       {children}

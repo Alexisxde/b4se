@@ -111,7 +111,7 @@ export function Calendar({
       <MotionConfig transition={transition}>
         <div
           key={calendarLogic.uniqueId}
-          className={cn("relative flex flex-col items-center justify-center", className)}
+          className={cn("relative flex w-full flex-col items-center justify-center", className)}
           {...props}>
           {children}
         </div>
@@ -221,7 +221,7 @@ export function CalendarContent({ className }: CalendarContentProps) {
           key={uniqueId}
           id={`calendar-content-${uniqueId}`}
           className={cn(
-            "absolute overflow-hidden border border-border bg-card text-primary shadow-md w-sm h-auto p-4 z-10 rounded-3xl",
+            "absolute overflow-hidden border border-outlinebg-card text-primary shadow-md w-sm h-auto p-4 z-10 rounded-3xl",
             className
           )}
           initial="initial"
@@ -325,12 +325,17 @@ export function CalendarTrigger({
   }
 
   return (
-    <motion.div key={uniqueId} layoutId={`select-trigger-${uniqueId}`} onClick={open} aria-expanded={isOpen}>
+    <motion.div
+      key={uniqueId}
+      layoutId={`select-trigger-${uniqueId}`}
+      onClick={open}
+      aria-expanded={isOpen}
+      className="w-full">
       <motion.div
         animate={error ? { x: [0, -24, 24, -24, 24, 0] } : { x: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
         className={cn(
-          "relative flex flex-col gap-1 bg-card shadow-[0_0_0_.5px_#0000000d,0_.5px_2.5px_#00000029] dark:shadow-[0_0_0_.5px_#2d372d,0_.5px_2.5px_#00000029] p-4 h-18 rounded-xl w-sm transition-all duration-200 ease-in-out cursor-pointer",
+          "relative flex flex-col gap-1 bg-card shadow-[0_0_0_.5px_#0000000d,0_.5px_2.5px_#00000029] dark:shadow-[0_0_0_.5px_#2d372d,0_.5px_2.5px_#00000029] p-4 h-18 rounded-xl w-full transition-all duration-200 ease-in-out cursor-pointer",
           className,
           { "ring-2 ring-destructive": error }
         )}

@@ -10,6 +10,7 @@ import { CalendarAnimation, CalendarItem } from "./calendar"
 import HeaderCalendar from "./header-calendar"
 import { SubscriptionDaySheet } from "./subscription-day-sheet"
 import { SubscriptionHoverCard } from "./subscription-hover-card"
+import { SubscriptionSkeleton } from "./subscription-skeleton"
 
 const DAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
 
@@ -131,7 +132,7 @@ export default function SubscriptionCalendar() {
   }
 
   return (
-    <div className="flex flex-col size-full text-foreground relative">
+    <div className="flex flex-col size-full relative">
       <HeaderCalendar
         month={month}
         year={year}
@@ -143,77 +144,77 @@ export default function SubscriptionCalendar() {
         prevMonth={prevMonth}
         nextMonth={nextMonth}
       />
-      <div className="grid grid-cols-7 bg-card my-1 rounded-4xl">
+      <div className="grid grid-cols-7 my-1">
         {DAYS.map((day) => (
-          <div
-            key={day}
-            className="py-4 text-center text-xs font-medium uppercase border-r border-outline/40 last:border-r-0 text-muted-foreground">
+          <div key={day} className="pb-2 text-center text-xs font-medium text-muted-foreground">
             {day}
           </div>
         ))}
       </div>
-      <CalendarAnimation
-        className="flex-1 grid grid-cols-7 grid-rows-6 auto-rows-fr gap-1"
-        uniqueKey={`${month}-${year}`}>
-        {calendarDays.map(({ day, month: dayMonth, key }) => {
-          const currentIsToday = dayMonth === "current" && isToday(day)
-          const daySubscriptions = dayMonth === "current" ? subscriptionsByDay[day] || [] : []
+      {isLoading ? (
+        <SubscriptionSkeleton />
+      ) : (
+        <CalendarAnimation className="flex-1 grid grid-cols-7 grid-rows-6 gap-1" uniqueKey={`${month}-${year}`}>
+          {calendarDays.map(({ day, month: dayMonth, key }) => {
+            const currentIsToday = dayMonth === "current" && isToday(day)
+            const daySubscriptions = dayMonth === "current" ? subscriptionsByDay[day] || [] : []
 
-          return (
-            <CalendarItem
-              key={key}
-              onMouseEnter={(e) => {
-                if (daySubscriptions.length > 0 && !isMobile) {
-                  if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current)
-                  setHoveredDay(day)
-                  handleMouseMove(e)
-                }
-              }}
-              onMouseLeave={handleDayLeave}
-              onMouseMove={handleMouseMove}
-              onClick={() => {
-                if (daySubscriptions.length > 0 && isMobile) {
-                  setSelectedDay(day)
-                  setIsSheetOpen(true)
-                }
-              }}
-              className={cn(
-                "rounded-full md:rounded-4xl relative flex flex-col p-4 bg-card transition-colors hover:bg-muted duration-200 ease-in-out h-full",
-                dayMonth !== "current" && "bg-muted/10 hover:bg-muted/10 text-muted-foreground/20",
-                hoveredDay === day && dayMonth === "current" && "z-10 bg-primary/10 hover:bg-primary/10",
-                isMobile && daySubscriptions.length > 0 && "cursor-pointer active:scale-95"
-              )}>
-              <span
+            return (
+              <CalendarItem
+                key={key}
+                onMouseEnter={(e) => {
+                  if (daySubscriptions.length > 0 && !isMobile) {
+                    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current)
+                    setHoveredDay(day)
+                    handleMouseMove(e)
+                  }
+                }}
+                onMouseLeave={handleDayLeave}
+                onMouseMove={handleMouseMove}
+                onClick={() => {
+                  if (daySubscriptions.length > 0 && isMobile) {
+                    setSelectedDay(day)
+                    setIsSheetOpen(true)
+                  }
+                }}
                 className={cn(
-                  "absolute bottom-2 left-4 flex items-center justify-center size-8 text-sm font-medium rounded-full",
-                  currentIsToday ? "bg-primary text-primary-foreground" : "text-foreground/80"
+                  "rounded-full md:rounded-4xl relative flex flex-col p-4 transition-colors duration-200 ease-in-out h-full bg-muted/10 text-muted-foreground/10",
+                  dayMonth === "current" && "bg-card hover:bg-card/80 text-foreground",
+                  hoveredDay === day && dayMonth === "current" && "z-10 bg-primary/10 hover:bg-primary/10",
+                  isMobile && daySubscriptions.length > 0 && "cursor-pointer active:scale-95"
                 )}>
-                {day}
-              </span>
-              <div className="flex-1 flex items-center justify-center -space-x-1">
-                {daySubscriptions.slice(0, 2).map((item, idx) => (
-                  <div key={`${key}-sub-${idx}`} className="relative p-1">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9, y: 10, filter: "blur(10px)" }}
-                      animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, scale: 0.95, y: 10, filter: "blur(10px)" }}
-                      className="[&_svg]:size-5 z-2 flex items-center justify-center"
-                      dangerouslySetInnerHTML={{ __html: item.sub.service.logo ?? "" }}
-                    />
-                  </div>
-                ))}
-                {daySubscriptions.length > 2 && (
-                  <div className="size-6 flex items-center justify-center bg-accent/50 rounded-full border border-border/50 ml-1">
-                    <span className="text-[11px] font-semibold text-muted-foreground">
-                      +{daySubscriptions.length - 2}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </CalendarItem>
-          )
-        })}
-      </CalendarAnimation>
+                <span
+                  className={cn(
+                    "absolute bottom-2 left-3 flex items-center justify-center size-8 text-sm font-medium rounded-full",
+                    currentIsToday ? "bg-primary text-primary-foreground" : "text-foreground/80"
+                  )}>
+                  {day}
+                </span>
+                <div className="flex-1 flex items-center justify-center -space-x-1">
+                  {daySubscriptions.slice(0, 2).map((item, idx) => (
+                    <div key={`${key}-sub-${idx}`} className="relative p-1">
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 10, filter: "blur(10px)" }}
+                        animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 0.95, y: 10, filter: "blur(10px)" }}
+                        className="[&_svg]:size-5 z-2 flex items-center justify-center"
+                        dangerouslySetInnerHTML={{ __html: item.sub.service.logo ?? "" }}
+                      />
+                    </div>
+                  ))}
+                  {daySubscriptions.length > 2 && (
+                    <div className="size-6 flex items-center justify-center bg-accent/50 rounded-full border border-outline/50 ml-1">
+                      <span className="text-[11px] font-semibold text-muted-foreground">
+                        +{daySubscriptions.length - 2}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </CalendarItem>
+            )
+          })}
+        </CalendarAnimation>
+      )}
       <SubscriptionHoverCard
         isVisible={hoveredDay !== null || isHoveringCard}
         day={hoveredDay ?? 0}

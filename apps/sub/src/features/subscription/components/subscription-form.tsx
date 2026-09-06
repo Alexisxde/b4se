@@ -180,10 +180,10 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
       </div>
       <Controller name="note" control={control} render={({ field }) => <Textarea {...field} label="Observación" />} />
       <footer className="flex items-center gap-2 justify-end">
-        <Button ripple type="button" variant="secondary" disabled={isSubmitting} onClick={() => onOpenChange(false)}>
+        <Button variant="secondary" disabled={isSubmitting} onClick={() => onOpenChange(false)}>
           Cancelar
         </Button>
-        <Button ripple type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? <Loader2Icon className="animate-spin size-4" /> : "Guardar"}
         </Button>
       </footer>
