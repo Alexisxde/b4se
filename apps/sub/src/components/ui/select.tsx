@@ -2,7 +2,17 @@
 import useClickOutside from "@/hooks/use-click-outside"
 import { cn } from "@/lib/utils"
 import { AnimatePresence, MotionConfig, motion, type Transition, type Variants } from "motion/react"
-import { createContext, isValidElement, useContext, useEffect, useId, useRef, useState } from "react"
+import {
+  createContext,
+  isValidElement,
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ComponentProps,
+  type ReactNode
+} from "react"
 
 type SelectContextValue = {
   isOpen: boolean
@@ -12,8 +22,8 @@ type SelectContextValue = {
   variants?: Variants
   value?: any
   onValueChange?: (value: any) => void
-  selectedContent: React.ReactNode | null
-  reportContent: (value: any, content: React.ReactNode) => void
+  selectedContent: ReactNode | null
+  reportContent: (value: any, content: ReactNode) => void
 }
 
 const SelectContext = createContext<SelectContextValue | null>(null)
@@ -34,7 +44,7 @@ function useSelectLogic({
   const uniqueId = useId()
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen)
   const [uncontrolledValue, setUncontrolledValue] = useState<any>(undefined)
-  const [contents, setContents] = useState<Record<string, React.ReactNode>>({})
+  const [contents, setContents] = useState<Record<string, ReactNode>>({})
 
   const isOpen = controlledOpen ?? uncontrolledOpen
   const value = controlledValue ?? uncontrolledValue
@@ -55,7 +65,7 @@ function useSelectLogic({
     close()
   }
 
-  const reportContent = (val: any, content: React.ReactNode) => {
+  const reportContent = (val: any, content: ReactNode) => {
     const key = String(val)
     setContents((prev) => {
       if (prev[key] === content) return prev
@@ -75,23 +85,22 @@ function useSelectLogic({
   }
 }
 
-function useSelect() {
+export function useSelect() {
   const context = useContext(SelectContext)
-  if (!context) throw new Error("SelectItem must be used within Select")
+  if (!context) throw new Error("Select compound components must be used within Select")
   return context
 }
 
-export type SelectProps = {
-  children: React.ReactNode
+export interface SelectProps extends ComponentProps<"div"> {
+  children?: ReactNode
   transition?: Transition
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
   variants?: Variants
-  className?: string
   value?: any
   onValueChange?: (value: any) => void
-} & React.ComponentProps<"div">
+}
 
 export function Select({
   children,
@@ -105,13 +114,13 @@ export function Select({
   onValueChange,
   ...props
 }: SelectProps) {
-  const SelectLogic = useSelectLogic({ defaultOpen, open, onOpenChange, value, onValueChange })
+  const selectLogic = useSelectLogic({ defaultOpen, open, onOpenChange, value, onValueChange })
 
   return (
-    <SelectContext.Provider value={{ ...SelectLogic, variants }}>
+    <SelectContext.Provider value={{ ...selectLogic, variants }}>
       <MotionConfig transition={transition}>
         <div
-          key={SelectLogic.uniqueId}
+          key={selectLogic.uniqueId}
           className={cn("relative flex flex-col items-center justify-center", className)}
           {...props}>
           {children}
@@ -121,11 +130,11 @@ export function Select({
   )
 }
 
-type SelectValueProps = {
-  placeholder: string
-} & React.ComponentProps<typeof motion.div>
+export interface SelectValueProps extends ComponentProps<typeof motion.div> {
+  placeholder?: string
+}
 
-export function SelectValue({ placeholder, className, ...props }: SelectValueProps) {
+export function SelectValue({ placeholder = "Seleccionar", className, ...props }: SelectValueProps) {
   const { selectedContent } = useSelect()
   return (
     <motion.div
@@ -138,9 +147,9 @@ export function SelectValue({ placeholder, className, ...props }: SelectValuePro
   )
 }
 
-export type SelectContentProps = {
-  children: React.ReactNode
-} & React.ComponentProps<typeof motion.div>
+export interface SelectContentProps extends ComponentProps<typeof motion.div> {
+  children?: ReactNode
+}
 
 export function SelectContent({ children, className, ...props }: SelectContentProps) {
   const { isOpen, close, uniqueId, variants } = useSelect()
@@ -173,12 +182,12 @@ export function SelectContent({ children, className, ...props }: SelectContentPr
   )
 }
 
-export type SelectItemProps = {
+export interface SelectItemProps extends ComponentProps<typeof motion.div> {
   value: string
-  children?: React.ReactNode
-} & React.ComponentProps<typeof motion.div>
+  children?: ReactNode
+}
 
-export function SelectItem({ value, children, className, ...props }: SelectItemProps) {
+export function SelectItem({ value, children, className, onClick, ...props }: SelectItemProps) {
   const { value: v, reportContent, onValueChange } = useSelect()
   const isSelected = v === value
 
@@ -188,41 +197,49 @@ export function SelectItem({ value, children, className, ...props }: SelectItemP
 
   return (
     <motion.div
-      onClick={() => onValueChange?.(isSelected ? undefined : value)}
+      role="option"
+      aria-selected={isSelected}
+      onClick={(e) => {
+        onClick?.(e)
+        onValueChange?.(isSelected ? undefined : value)
+      }}
       className={cn(
         "relative flex w-full text-muted-foreground cursor-pointer select-none items-center rounded-md py-2 px-3 text-sm outline-none transition-colors duration-200 ease-in-out font-medium hover:bg-muted",
         isSelected && "bg-muted font-semibold",
         className
       )}
-      role="option"
       {...props}>
       {children}
     </motion.div>
   )
 }
 
-type SelectMessageErrorProps = {
+export interface SelectMessageErrorProps extends ComponentProps<typeof motion.p> {
   message?: string
-} & React.ComponentProps<typeof motion.p>
+}
 
-export function SelectMessageError({ message, className, ...props }: SelectMessageErrorProps) {
-  return message ? (
+export function SelectMessageError({ message, className, children, ...props }: SelectMessageErrorProps) {
+  const content = message ?? children
+  if (!content) return null
+
+  return (
     <motion.p
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
       className={cn("text-left w-full my-3 text-destructive text-xs", className)}
       {...props}>
-      {message}
+      {content}
     </motion.p>
-  ) : null
+  )
 }
 
-type SelectTitleProps = {
-  title: string
-} & React.ComponentProps<typeof motion.span>
+export interface SelectTitleProps extends ComponentProps<typeof motion.span> {
+  title?: string
+  children?: ReactNode
+}
 
-export function SelectTitle({ title, className, ...props }: SelectTitleProps) {
+export function SelectTitle({ title, children, className, ...props }: SelectTitleProps) {
   const { uniqueId } = useSelect()
   return (
     <motion.span
@@ -230,20 +247,20 @@ export function SelectTitle({ title, className, ...props }: SelectTitleProps) {
       layoutId={`select-title-${uniqueId}`}
       className={cn("text-xl font-medium text-primary", className)}
       {...props}>
-      {title}
+      {children ?? title}
     </motion.span>
   )
 }
 
-type SelectTriggerProps = {
-  children?: React.ReactNode
+export interface SelectTriggerProps extends ComponentProps<typeof motion.div> {
+  children?: ReactNode
   asChild?: boolean
-  label: string
+  label?: string
   error?: boolean
   placeholder?: string
   classValue?: string
   classLabel?: string
-} & React.ComponentProps<typeof motion.div>
+}
 
 export function SelectTrigger({
   children,
@@ -254,13 +271,15 @@ export function SelectTrigger({
   error,
   placeholder,
   asChild = false,
+  onClick,
   ...props
 }: SelectTriggerProps) {
   const { isOpen, open, close, uniqueId } = useSelect()
 
-  const handleToggle = (e: React.MouseEvent) => {
+  const handleToggle = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     e.stopPropagation()
+    onClick?.(e)
     if (isOpen) close()
     else open()
   }
@@ -274,7 +293,7 @@ export function SelectTrigger({
         {...childProps}
         onClick={handleToggle}
         layoutId={`select-trigger-${uniqueId}`}
-        className={cn("w-full cursor-pointer", childProps.className!, className)}
+        className={cn("w-full cursor-pointer", childProps.className as string, className)}
         key={uniqueId}
         aria-expanded={isOpen}
         aria-controls={`select-content-${uniqueId}`}
@@ -293,7 +312,7 @@ export function SelectTrigger({
           { "ring-2 ring-destructive hover:ring-destructive": error }
         )}
         {...props}>
-        <SelectTitle title={label} className={cn("text-xs text-label", classLabel)} />
+        {label && <SelectTitle title={label} className={cn("text-xs text-label", classLabel)} />}
         <SelectValue
           placeholder={placeholder ?? "Seleccionar"}
           className={cn(
@@ -301,14 +320,15 @@ export function SelectTrigger({
             classValue
           )}
         />
+        {children}
       </motion.div>
     </motion.div>
   )
 }
 
-type SelectGroupProps = {
-  children: React.ReactNode
-} & React.ComponentProps<typeof motion.section>
+export interface SelectGroupProps extends ComponentProps<typeof motion.section> {
+  children?: ReactNode
+}
 
 export function SelectGroup({ children, className, ...props }: SelectGroupProps) {
   return (
@@ -316,4 +336,25 @@ export function SelectGroup({ children, className, ...props }: SelectGroupProps)
       {children}
     </motion.section>
   )
+}
+
+// Attach compound components to Select
+Select.Trigger = SelectTrigger
+Select.Content = SelectContent
+Select.Item = SelectItem
+Select.Value = SelectValue
+Select.Title = SelectTitle
+Select.Group = SelectGroup
+Select.Error = SelectMessageError
+Select.MessageError = SelectMessageError
+
+export {
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectTitle,
+  SelectGroup,
+  SelectMessageError,
+  SelectMessageError as SelectError
 }

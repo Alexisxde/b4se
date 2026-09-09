@@ -14,6 +14,7 @@ import {
   useState
 } from "react"
 import { cn } from "../../lib/utils"
+import { usePopover } from "../popover/popover"
 import {
   type SelectContentContextValue,
   type SelectItem,
@@ -50,27 +51,26 @@ export interface SelectProps<T extends SelectItem = SelectItem> {
   id?: string
   filterFn?: (item: T, query: string) => boolean
   className?: string
+  ref?: React.Ref<HTMLDivElement>
 }
 
-function Select<T extends SelectItem = SelectItem>(
-  {
-    children,
-    data = [],
-    value: controlledValue,
-    defaultValue,
-    onChange,
-    onValueChange,
-    onSelect,
-    onClear,
-    error,
-    disabled = false,
-    name,
-    id: propId,
-    filterFn,
-    className
-  }: SelectProps<T>,
-  ref: React.Ref<HTMLDivElement>
-) {
+function Select<T extends SelectItem = SelectItem>({
+  children,
+  data = [],
+  value: controlledValue,
+  defaultValue,
+  onChange,
+  onValueChange,
+  onSelect,
+  onClear,
+  error,
+  disabled = false,
+  name,
+  id: propId,
+  filterFn,
+  className,
+  ref
+}: SelectProps<T>) {
   const generatedId = useId()
   const id = propId || generatedId
   const errorId = `${id}-error`
@@ -91,9 +91,7 @@ function Select<T extends SelectItem = SelectItem>(
   /* Selection action */
   const selectItem = useCallback(
     (item: T) => {
-      if (!isControlled) {
-        setUncontrolledValue(item.id)
-      }
+      if (!isControlled) setUncontrolledValue(item.id)
       onSelect?.(item)
       onValueChange?.(item.id)
       onChange?.({
@@ -107,9 +105,7 @@ function Select<T extends SelectItem = SelectItem>(
 
   /* Clear action */
   const clear = useCallback(() => {
-    if (!isControlled) {
-      setUncontrolledValue("")
-    }
+    if (!isControlled) setUncontrolledValue("")
     onClear?.()
     onValueChange?.("")
     onChange?.({
@@ -174,19 +170,6 @@ function Select<T extends SelectItem = SelectItem>(
   )
 }
 
-/* ---------------------------------------------------------------------------
- * Compound Component: <Select.Preview>
- * Styled identically to the Input component:
- *   - Container: p-4 min-h-16 rounded-xl border border-outline bg-card
- *   - Label with optional indicator
- *   - Logo / icon + selected item name / placeholder
- *   - Clear button (X) when item is selected
- *   - GSAP shake on error
- *   - GSAP scale on clear button
- *   - GSAP pop on logo
- *   - Forwards ref to work seamlessly as Popover.Trigger render prop
- * ------------------------------------------------------------------------- */
-
 export interface SelectPreviewProps extends ComponentPropsWithRef<"div"> {
   label?: string
   placeholder?: string
@@ -196,7 +179,6 @@ export interface SelectPreviewProps extends ComponentPropsWithRef<"div"> {
   optional?: boolean
   fieldClassName?: string
   labelClassName?: string
-  showError?: boolean
   render?: (item: SelectItem | null) => ReactNode
 }
 
@@ -212,7 +194,6 @@ export const SelectPreview = forwardRef<HTMLDivElement, SelectPreviewProps>(
       className,
       fieldClassName,
       labelClassName,
-      showError = false,
       render,
       onKeyDown,
       ...props
@@ -333,8 +314,7 @@ export const SelectPreview = forwardRef<HTMLDivElement, SelectPreviewProps>(
             ) : null}
           </div>
         </div>
-
-        {showError && displayError && (
+        {displayError && (
           <p
             ref={errorRef}
             id={errorId}
@@ -348,11 +328,6 @@ export const SelectPreview = forwardRef<HTMLDivElement, SelectPreviewProps>(
     )
   }
 )
-
-/* ---------------------------------------------------------------------------
- * Compound Component: <Select.Input>
- * The filter/search text input placed inside the Popover
- * ------------------------------------------------------------------------- */
 
 export interface SelectInputProps extends Omit<ComponentPropsWithRef<"input">, "size"> {
   containerClassName?: string
@@ -372,12 +347,11 @@ export const SelectInput = forwardRef<HTMLInputElement, SelectInputProps>(
 
     // Auto-focus when popover opens and input mounts
     useEffect(() => {
-      if (autoFocus) {
-        const timer = setTimeout(() => {
-          inputRef.current?.focus()
-        }, 50)
-        return () => clearTimeout(timer)
-      }
+      if (!autoFocus) return
+      const timer = setTimeout(() => {
+        inputRef.current?.focus()
+      }, 50)
+      return () => clearTimeout(timer)
     }, [autoFocus])
 
     return (
@@ -421,11 +395,6 @@ export const SelectInput = forwardRef<HTMLInputElement, SelectInputProps>(
   }
 )
 
-/* ---------------------------------------------------------------------------
- * Compound Component: <Select.Content>
- * The container inside Popover, wraps Select.Input and Select.List
- * ------------------------------------------------------------------------- */
-
 export interface SelectContentProps extends ComponentProps<"div"> {
   empty?: ReactNode
 }
@@ -434,15 +403,16 @@ export function SelectContent({ children, empty, className, ...props }: SelectCo
   const ctxValue = useMemo<SelectContentContextValue>(() => ({ empty }), [empty])
 
   return (
-    <SelectContentContext.Provider value={ctxValue}>
-      <div className={cn("flex flex-col gap-2.5 w-full min-w-[280px]", className)} {...props}>
+    <SelectContentContext value={ctxValue}>
+      <div className={cn("flex flex-col gap-2.5 w-full", className)} {...props}>
         {children}
       </div>
-    </SelectContentContext.Provider>
+    </SelectContentContext>
   )
 }
 
-export interface SelectListProps<T extends SelectItem = SelectItem> extends Omit<ComponentProps<"div">, "children"> {
+export interface SelectListProps<T extends SelectItem = SelectItem>
+  extends Omit<ComponentProps<"div">, "children" | "onSelect"> {
   children?: ReactNode | ((item: T, isSelected: boolean) => ReactNode)
   empty?: ReactNode
   itemClassName?: string
@@ -460,6 +430,7 @@ export function SelectList<T extends SelectItem = SelectItem>({
   const { filteredData, query } = useSelectQuery<T>()
   const { value, selectItem, renderLogo } = useSelectState<T>()
   const contentCtx = useSelectContent()
+  const { closePopover } = usePopover()
   const listRef = useRef<HTMLDivElement>(null)
 
   useListStagger(listRef, filteredData.length)
@@ -496,6 +467,7 @@ export function SelectList<T extends SelectItem = SelectItem>({
         const handleSelect = () => {
           onSelect?.(item)
           selectItem(item)
+          closePopover?.()
         }
 
         if (typeof children === "function") {

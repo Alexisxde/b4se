@@ -20,7 +20,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div className={cn("flex flex-col gap-1.5 w-full", containerClassName)}>
         <div
           className={cn(
-            "relative flex flex-col justify-center bg-card border border-outline px-4 py-2.5 min-h-24 rounded-xl w-full max-w-64 transition-all duration-200 ease-in-out cursor-text focus-within:ring-1 focus-within:ring-ring/50",
+            "relative flex flex-col justify-center bg-card border border-outline p-4 min-h-24 rounded-xl w-full min-w-64 transition-all duration-200 ease-in-out cursor-text focus-within:ring-1 focus-within:ring-ring/50",
             fieldClassName
           )}>
           <label

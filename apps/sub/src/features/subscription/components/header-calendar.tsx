@@ -1,6 +1,6 @@
 import { monthStringLong } from "@/utils/month-string"
 import { Button, Input, Popover } from "@b4se/ui"
-import { ArrowLeft, ArrowRight, Columns4, Grid3x3, SlidersHorizontal, SquareSplitVertical } from "lucide-react"
+import { ArrowLeft, ArrowRight, SlidersHorizontal } from "lucide-react"
 import { SubscriptionCreatePopover } from "./subscription-create-popover"
 
 type Props = {
@@ -41,7 +41,7 @@ export function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
             </Popover.Footer>
           </Popover.Content>
         </Popover>
-        <div className="bg-card space-x-0.5 px-1.5 py-1 rounded-full">
+        {/* <div className="bg-card space-x-0.5 px-1.5 py-1 rounded-full">
           <Button variant="ghost" size="xs" className="rounded-full">
             <SquareSplitVertical className="size-5" />
           </Button>
@@ -51,7 +51,7 @@ export function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
           <Button variant="secondary" size="xs" className="rounded-full">
             <Grid3x3 className="size-5" />
           </Button>
-        </div>
+        </div> */}
         <div className="flex items-center gap-1.5">
           <Button variant="secondary" size="icon" onClick={prevMonth}>
             <ArrowLeft className="size-5" />

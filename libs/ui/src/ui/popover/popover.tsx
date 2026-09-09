@@ -323,7 +323,7 @@ function PopoverContent({ className, windowClassName, backdropClassName, childre
         data-slot="popover-content"
         style={{ visibility: "hidden", ...props.style }}
         className={cn(
-          "pointer-events-auto fixed z-1 box-border flex flex-col size-fit",
+          "pointer-events-auto fixed z-1 box-border flex flex-col size-fit min-w-64",
           "overflow-hidden rounded-4xl bg-popover text-foreground",
           "border border-outline/40 shadow-(--popover-shadow)",
           ctx.debug && "outline-2 outline-fuchsia-500/80",

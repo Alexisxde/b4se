@@ -79,7 +79,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           onClick={(e: React.MouseEvent<HTMLDivElement>) => {
             const inputEl = e.currentTarget?.querySelector("input")
-            inputEl.focus()
+            inputEl?.focus()
           }}>
           <div className="flex items-center justify-between gap-2">
             <label
