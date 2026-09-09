@@ -43,6 +43,8 @@ export interface SelectProps<T extends SelectItem = SelectItem> {
   defaultValue?: string | number
   onChange?: (e: any) => void
   onValueChange?: (value: any) => void
+  onQueryChange?: (query: string) => void
+  query?: string
   onSelect?: (item: T) => void
   onClear?: () => void
   error?: string
@@ -61,6 +63,8 @@ function Select<T extends SelectItem = SelectItem>({
   defaultValue,
   onChange,
   onValueChange,
+  onQueryChange,
+  query: controlledQuery,
   onSelect,
   onClear,
   error,
@@ -81,16 +85,66 @@ function Select<T extends SelectItem = SelectItem>({
   const value = isControlled ? controlledValue : uncontrolledValue
 
   /* Query state for filtering */
-  const [query, setQuery] = useState("")
+  const isQueryControlled = controlledQuery !== undefined
+  const [uncontrolledQuery, setUncontrolledQuery] = useState("")
+  const query = isQueryControlled ? controlledQuery : uncontrolledQuery
 
-  /* Split hook computations (rule: rerender-split-combined-hooks) */
-  const selectedItem = useSelectedItem(data, value)
+  const handleQueryChange = useCallback(
+    (newQuery: string) => {
+      if (!isQueryControlled) setUncontrolledQuery(newQuery)
+      onQueryChange?.(newQuery)
+      if (!isControlled) setUncontrolledValue(newQuery)
+      onValueChange?.(newQuery)
+      onChange?.({ target: { name, value: newQuery }, currentTarget: { name, value: newQuery } })
+    },
+    [isQueryControlled, onQueryChange, isControlled, onValueChange, onChange, name]
+  )
+
+  // Reset query if controlled value becomes empty
+  useEffect(() => {
+    if (isControlled && (controlledValue === "" || controlledValue === undefined)) {
+      setUncontrolledQuery("")
+    }
+  }, [isControlled, controlledValue])
+
+  /* Selected item state: preserves the selected item even if `data` is temporarily empty or refetching */
+  const [selectedItemState, setSelectedItemState] = useState<T | null>(null)
+
+  const foundItem = useSelectedItem(data, value)
+
+  useEffect(() => {
+    if (foundItem) {
+      setSelectedItemState(foundItem)
+    }
+  }, [foundItem])
+
+  useEffect(() => {
+    if (value === "" || value === undefined || value === null) {
+      setSelectedItemState(null)
+    }
+  }, [value])
+
+  const selectedItem = useMemo(() => {
+    if (foundItem) return foundItem
+    if (
+      selectedItemState &&
+      value !== undefined &&
+      value !== null &&
+      value !== "" &&
+      (String(selectedItemState.id) === String(value) || selectedItemState.name === value)
+    ) {
+      return selectedItemState
+    }
+    return null
+  }, [foundItem, selectedItemState, value])
+
   const hasValue = useHasValue(value)
   const filteredData = useFilteredData(data, query, filterFn)
 
   /* Selection action */
   const selectItem = useCallback(
     (item: T) => {
+      setSelectedItemState(item)
       if (!isControlled) setUncontrolledValue(item.id)
       onSelect?.(item)
       onValueChange?.(item.id)
@@ -98,13 +152,17 @@ function Select<T extends SelectItem = SelectItem>({
         target: { name, value: item.id },
         currentTarget: { name, value: item.id }
       })
-      setQuery("")
+      if (!isQueryControlled) {
+        setUncontrolledQuery("")
+      }
+      onQueryChange?.("")
     },
-    [isControlled, onSelect, onValueChange, onChange, name]
+    [isControlled, onSelect, onValueChange, onChange, name, isQueryControlled, onQueryChange]
   )
 
   /* Clear action */
   const clear = useCallback(() => {
+    setSelectedItemState(null)
     if (!isControlled) setUncontrolledValue("")
     onClear?.()
     onValueChange?.("")
@@ -112,8 +170,11 @@ function Select<T extends SelectItem = SelectItem>({
       target: { name, value: "" },
       currentTarget: { name, value: "" }
     })
-    setQuery("")
-  }, [isControlled, onClear, onValueChange, onChange, name])
+    if (!isQueryControlled) {
+      setUncontrolledQuery("")
+    }
+    onQueryChange?.("")
+  }, [isControlled, onClear, onValueChange, onChange, name, isQueryControlled, onQueryChange])
 
   /* Logo rendering helper */
   const renderLogo = useCallback((logo: string | ReactNode): ReactNode => {
@@ -153,10 +214,10 @@ function Select<T extends SelectItem = SelectItem>({
   const queryValue = useMemo<SelectQueryContextValue<T>>(
     () => ({
       query,
-      setQuery,
+      setQuery: handleQueryChange,
       filteredData
     }),
-    [query, filteredData]
+    [query, handleQueryChange, filteredData]
   )
 
   return (
@@ -367,7 +428,10 @@ export const SelectInput = forwardRef<HTMLInputElement, SelectInputProps>(
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            props.onChange?.(e)
+          }}
           placeholder={placeholder}
           disabled={disabled}
           autoComplete="off"
