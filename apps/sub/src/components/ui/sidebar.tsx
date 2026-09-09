@@ -1,5 +1,5 @@
 "use client"
-import { Button, type ButtonProps, cn } from "@b4se/ui"
+import { cn } from "@b4se/ui"
 import { motion } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -17,11 +17,11 @@ function useSidebar() {
 export function Sidebar({ children, className }: { children: React.ReactNode; className?: string }) {
   const pathname = usePathname()
   return (
-    <SidebarContext.Provider value={{ pathname }}>
-      <motion.aside initial={false} className={cn("z-2 md:flex h-dvh flex-col items-center py-8 hidden", className)}>
+    <SidebarContext value={{ pathname }}>
+      <motion.aside initial={false} className={cn("z-2 md:flex h-dvh flex-col items-center py-6 hidden", className)}>
         {children}
       </motion.aside>
-    </SidebarContext.Provider>
+    </SidebarContext>
   )
 }
 
@@ -63,20 +63,5 @@ export function SidebarLink({ href, title, isActive: customIsActive, className }
     <Link href={href} className="w-fit">
       <SidebarItem title={title} isActive={isActive} className={className} />
     </Link>
-  )
-}
-
-export function SidebarButton({ onClick, title, isActive, className, ...props }: SidebarItemProps & ButtonProps) {
-  return (
-    <Button
-      size="lg"
-      onClick={onClick}
-      className={cn(
-        "text-base flex items-center justify-center gap-1 rounded-4xl text-muted-foreground p-3 transition-all duration-200 ease-in-out hover:text-primary bg-muted/50 hover:bg-muted hover:opacity-100 transform hover:translate-x-2 hover:scale-105",
-        className
-      )}
-      {...props}>
-      <motion.span>{title}</motion.span>
-    </Button>
   )
 }

@@ -22,7 +22,9 @@ export function SubscriptionCreatePopover() {
             <Plus className="size-5" /> Agregar
           </Popover.Title>
         </Popover.Header>
-        <SubscriptionForm onOpenChange={setIsOpen} />
+        <Popover.Body>
+          <SubscriptionForm onOpenChange={setIsOpen} />
+        </Popover.Body>
       </Popover.Content>
     </Popover>
   )

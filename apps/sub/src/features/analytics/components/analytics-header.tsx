@@ -1,7 +1,7 @@
 "use client"
 
 import { TextAnimate } from "@/components/ui/text-animate"
-import SubscriptionCreatePopover from "@/features/subscription/components/subscription-create-popover"
+import { SubscriptionCreatePopover } from "@/features/subscription/components/subscription-create-popover"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { monthStringLong } from "@/utils/month-string"
 import { Button } from "@b4se/ui"

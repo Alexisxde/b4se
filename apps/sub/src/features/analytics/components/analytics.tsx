@@ -8,7 +8,7 @@ import AnalyticsCardPayments from "./analytics-card-payments"
 import AnalyticsCardServices from "./analytics-card-services"
 import AnalyticsHeader from "./analytics-header"
 
-export function AnalyticsDashboard() {
+export function Analytics() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const month = currentDate.getMonth()
   const year = currentDate.getFullYear()

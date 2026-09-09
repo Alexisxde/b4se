@@ -18,7 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`dark ${dmSans.variable}`}>
+    <html lang="es" className={`dark ${dmSans.variable}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <AuthSessionProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

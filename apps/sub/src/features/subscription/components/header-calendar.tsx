@@ -11,7 +11,7 @@ type Props = {
   nextMonth: () => void
 }
 
-export default function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
+export function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
   return (
     <header className="flex items-center justify-between mb-2">
       <h2 className="text-muted-foreground text-2xl font-medium tracking-tight">

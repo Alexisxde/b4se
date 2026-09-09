@@ -72,7 +72,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           ref={fieldRef}
           className={cn(
-            "relative flex flex-col justify-center bg-card border border-outline px-4 py-2.5 min-h-16 rounded-xl w-full max-w-64 transition-all duration-200 ease-in-out cursor-text focus-within:ring-1 focus-within:ring-ring/50",
+            "relative flex flex-col justify-center bg-card border border-outline p-4 min-h-16 rounded-xl w-full max-w-64 transition-all duration-200 ease-in-out cursor-text focus-within:ring-1 focus-within:ring-ring/50",
             disabled && "opacity-50 cursor-not-allowed",
             error && "border-destructive focus-within:ring-destructive/50",
             fieldClassName

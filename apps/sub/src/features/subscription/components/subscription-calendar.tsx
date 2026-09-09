@@ -7,14 +7,14 @@ import { useMemo, useRef, useState } from "react"
 import { useSubscriptions } from "../hooks/use-subscriptions"
 import type { Subcription } from "../suscription"
 import { CalendarAnimation, CalendarItem } from "./calendar"
-import HeaderCalendar from "./header-calendar"
+import { HeaderCalendar } from "./header-calendar"
 import { SubscriptionDaySheet } from "./subscription-day-sheet"
 import { SubscriptionHoverCard } from "./subscription-hover-card"
 import { SubscriptionSkeleton } from "./subscription-skeleton"
 
 const DAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
 
-export default function SubscriptionCalendar() {
+export function SubscriptionCalendar() {
   const isMobile = useIsMobile()
   const [currentDate, setCurrentDate] = useState(new Date())
   const [hoveredDay, setHoveredDay] = useState<number | null>(null)
@@ -132,7 +132,7 @@ export default function SubscriptionCalendar() {
   }
 
   return (
-    <div className="flex flex-col size-full relative">
+    <div className="flex flex-col relative h-dvh p-4 pb-8 md:p-6">
       <HeaderCalendar
         month={month}
         year={year}

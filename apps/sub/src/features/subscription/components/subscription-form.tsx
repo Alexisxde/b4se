@@ -1,18 +1,8 @@
 "use client"
 import { Calendar, CalendarContent, CalendarMessageError, CalendarTrigger } from "@/components/ui/calendar-input"
-import Input from "@/components/ui/input"
-import SearchInput from "@/components/ui/search-input"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectMessageError,
-  SelectTrigger
-} from "@/components/ui/select"
 import Textarea from "@/components/ui/textarea"
 import { useServices } from "@/features/service/hooks/use-services"
-import { Button } from "@b4se/ui"
+import { Button, Input, Popover, Select } from "@b4se/ui"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2Icon } from "lucide-react"
 import { Controller, useForm, type SubmitHandler } from "react-hook-form"
@@ -75,14 +65,21 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
         control={control}
         defaultValue=""
         render={({ field }) => (
-          <SearchInput
-            {...field}
-            data={services}
-            label="Suscripción"
-            inputMode="search"
-            placeholder="Netflix, Spotify, AWS..."
-            error={errors.serviceId?.message}
-          />
+          <Select {...field} data={services} error={errors.serviceId?.message}>
+            <Popover>
+              <Popover.Trigger
+                render={<Select.Preview label="Suscripción" placeholder="Seleccione su suscripción" />}
+              />
+              <Popover.Content>
+                <Popover.Body>
+                  <Select.Content>
+                    <Select.Input />
+                    <Select.List />
+                  </Select.Content>
+                </Popover.Body>
+              </Popover.Content>
+            </Popover>
+          </Select>
         )}
       />
       <div className="flex items-start space-x-4 space-y-4 mb-0">
@@ -105,13 +102,20 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
           name="paymentMethodId"
           control={control}
           render={({ field }) => (
-            <SearchInput
-              {...field}
-              data={paymentMethods}
-              label="Método de Pago"
-              placeholder="Stripe, PayPal, etc."
-              error={errors.paymentMethodId?.message}
-            />
+            <Select {...field} data={paymentMethods} error={errors.paymentMethodId?.message}>
+              <Popover>
+                <Popover.Trigger
+                  render={<Select.Preview label="Método de Pago" placeholder="Seleccione su método de pago" />}
+                />
+                <Popover.Content>
+                  <Popover.Body>
+                    <Select.Content>
+                      <Select.List />
+                    </Select.Content>
+                  </Popover.Body>
+                </Popover.Content>
+              </Popover>
+            </Select>
           )}
         />
       </div>
@@ -135,7 +139,7 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
         )}
       />
       <div className="flex items-start space-x-4">
-        <Controller
+        {/* <Controller
           name="categoryId"
           control={control}
           render={({ field }) => (
@@ -157,8 +161,8 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
               </SelectContent>
             </Select>
           )}
-        />
-        <Controller
+        /> */}
+        {/* <Controller
           name="period"
           control={control}
           render={({ field }) => (
@@ -176,7 +180,7 @@ export default function SubscriptionForm({ onOpenChange }: Props) {
               </SelectContent>
             </Select>
           )}
-        />
+        /> */}
       </div>
       <Controller name="note" control={control} render={({ field }) => <Textarea {...field} label="Observación" />} />
       <footer className="flex items-center gap-2 justify-end">

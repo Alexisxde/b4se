@@ -7,7 +7,7 @@ import { SignInForm } from "../features/auth/components/sign-in-form"
 
 export default function Home() {
   return (
-    <section className="min-h-dvh">
+    <section className="h-dvh">
       <Header />
       <main className="flex flex-col items-center justify-center gap-8 p-8 max-w-4xl mx-auto">
         <div className="flex flex-col items-center gap-2 text-center">

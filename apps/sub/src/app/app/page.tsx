@@ -1,9 +1,5 @@
-import SubscriptionCalendar from "@/features/subscription/components/subscription-calendar"
+import { Dashboard } from "@/features/dashboard/components/dashboard"
 
-export default function App() {
-  return (
-    <section className="h-dvh p-4 pb-8 md:p-6">
-      <SubscriptionCalendar />
-    </section>
-  )
+export default function AppPage() {
+  return <Dashboard />
 }

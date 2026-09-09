@@ -6,75 +6,45 @@
       "request": "launch",
       "name": "Debug @b4se/api-auth with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "exec",
-        "nx",
-        "serve",
-        "@b4se/api-auth"
-      ],
+      "runtimeArgs": ["exec", "nx", "serve", "@b4se/api-auth"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/apps/api-auth/dist/**/*.(m|c|)js",
-        "!**/node_modules/**"
-      ]
+      "outFiles": ["${workspaceFolder}/apps/api-auth/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Debug @b4se/auth with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "exec",
-        "nx",
-        "serve",
-        "@b4se/auth"
-      ],
+      "runtimeArgs": ["exec", "nx", "serve", "@b4se/auth"],
       "env": {
         "NODE_OPTIONS": "--inspect=9230"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/auth/dist/**/*.(m|c|)js",
-        "!**/node_modules/**"
-      ]
+      "outFiles": ["${workspaceFolder}/auth/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Debug @b4se/auth2 with Nx",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "exec",
-        "nx",
-        "serve",
-        "@b4se/auth2"
-      ],
+      "runtimeArgs": ["exec", "nx", "serve", "@b4se/auth2"],
       "env": {
         "NODE_OPTIONS": "--inspect=9231"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": [
-        "${workspaceFolder}/auth2/dist/**/*.(m|c|)js",
-        "!**/node_modules/**"
-      ]
+      "outFiles": ["${workspaceFolder}/auth2/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     }
   ]
 }
