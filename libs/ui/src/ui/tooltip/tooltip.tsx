@@ -71,8 +71,8 @@ function TooltipContent({ className, children, showArrow = true, style, ...props
         ...style
       }}
       className={cn(
-        "z-50 max-w-xs max-w-[calc(100vw-1rem)] rounded-full border border-outline bg-popover px-3 py-1.5",
-        "text-sm text-popover-foreground shadow-md will-change-transform",
+        "z-50 max-w-xs rounded-full border border-outline bg-popover px-3 py-1.5",
+        "text-xs text-popover-foreground shadow-md will-change-transform",
         className
       )}
       {...props}>
