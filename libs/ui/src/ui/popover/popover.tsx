@@ -1,28 +1,9 @@
 "use client"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
-import type {
-  ComponentProps,
-  Dispatch,
-  MouseEvent,
-  PointerEvent,
-  ReactElement,
-  ReactNode,
-  Ref,
-  RefObject,
-  SetStateAction
-} from "react"
-import {
-  cloneElement,
-  createContext,
-  isValidElement,
-  useContext,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState
-} from "react"
+import type { ComponentProps, Dispatch, MouseEvent, PointerEvent, ReactElement, ReactNode, SetStateAction } from "react"
+import { createContext, isValidElement, useContext, useEffect, useId, useMemo, useRef, useState } from "react"
+import { withRender } from "../../lib/helper"
 import { Button } from "../button"
 import {
   type Align,
@@ -33,15 +14,6 @@ import {
   SIDE,
   useMorphPopover
 } from "./use-popover"
-
-/* ---------------------------------------------------------------------------
- * Popover — a floating popover that morphs out of its own trigger using GSAP Flip.
- *
- * Implements the Compound Components pattern (Trigger, Content, Header, Title,
- * Description, Footer, Close, with `render` support for polymorphic composition).
- *
- * Utilizes design tokens and CSS variables from global.css and theme.css.
- * ------------------------------------------------------------------------- */
 
 type PopoverContextValue = {
   open: boolean
@@ -163,51 +135,6 @@ function Popover({
   return <PopoverContext value={value}>{children}</PopoverContext>
 }
 
-/* ----------------------------------------------------------------- helpers -- */
-
-function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
-  return (node: T | null) => {
-    for (const ref of refs) {
-      if (!ref) continue
-      if (typeof ref === "function") ref(node)
-      else (ref as RefObject<T | null>).current = node
-    }
-  }
-}
-
-function withRender(
-  render: ReactElement,
-  ours: Record<string, unknown>,
-  className?: string,
-  attach?: (el: never | null) => void,
-  children?: ReactNode
-) {
-  const theirs = render.props as Record<string, unknown> & {
-    ref?: Ref<never>
-    className?: string
-  }
-  const merged: Record<string, unknown> = { ...ours }
-
-  if (attach) merged.ref = mergeRefs(theirs.ref, attach)
-  if (children !== undefined) merged.children = children
-
-  for (const key of Object.keys(ours)) {
-    const mine = ours[key]
-    const yours = theirs[key]
-    if (key.startsWith("on") && typeof mine === "function" && typeof yours === "function") {
-      merged[key] = (...args: unknown[]) => {
-        ;(yours as (...a: unknown[]) => void)(...args)
-        ;(mine as (...a: unknown[]) => void)(...args)
-      }
-    }
-  }
-  merged.className = cn(theirs.className, className)
-
-  return cloneElement(render, merged)
-}
-
-/* ----------------------------------------------------------------- trigger -- */
-
 export type PopoverTriggerProps = ComponentProps<"button"> & {
   /** Render as a custom element, e.g. `render={<Button variant="outline" />}`. */
   render?: ReactElement
@@ -244,8 +171,6 @@ function PopoverTrigger({ render, className, onClick, children, ...props }: Popo
     </button>
   )
 }
-
-/* ----------------------------------------------------------------- close -- */
 
 export type PopoverCloseProps = ComponentProps<"button"> & {
   render?: ReactElement

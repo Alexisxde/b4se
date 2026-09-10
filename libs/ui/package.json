@@ -39,15 +39,15 @@
       "import": "./src/ui/empty/index.ts",
       "default": "./src/ui/empty/index.ts"
     },
-    "./search": {
-      "types": "./src/ui/search/index.ts",
-      "import": "./src/ui/search/index.ts",
-      "default": "./src/ui/search/index.ts"
+    "./select": {
+      "types": "./src/ui/select/index.ts",
+      "import": "./src/ui/select/index.ts",
+      "default": "./src/ui/select/index.ts"
     },
-    "./search-input": {
-      "types": "./src/ui/search/index.ts",
-      "import": "./src/ui/search/index.ts",
-      "default": "./src/ui/search/index.ts"
+    "./tooltip": {
+      "types": "./src/ui/tooltip/index.ts",
+      "import": "./src/ui/tooltip/index.ts",
+      "default": "./src/ui/tooltip/index.ts"
     },
     "./theme.css": {
       "style": "./src/theme.css",

@@ -1,5 +1,5 @@
 import { monthStringLong } from "@/utils/month-string"
-import { Button, Input, Popover } from "@b4se/ui"
+import { Button, Input, Popover, Tooltip } from "@b4se/ui"
 import { ArrowLeft, ArrowRight, SlidersHorizontal } from "lucide-react"
 import { SubscriptionCreatePopover } from "./subscription-create-popover"
 
@@ -53,12 +53,26 @@ export function HeaderCalendar({ month, year, prevMonth, nextMonth }: Props) {
           </Button>
         </div> */}
         <div className="flex items-center gap-1.5">
-          <Button variant="secondary" size="icon" onClick={prevMonth}>
-            <ArrowLeft className="size-5" />
-          </Button>
-          <Button variant="secondary" size="icon" onClick={nextMonth}>
-            <ArrowRight className="size-5" />
-          </Button>
+          <Tooltip>
+            <Tooltip.Trigger
+              render={
+                <Button variant="secondary" size="icon" onClick={prevMonth}>
+                  <ArrowLeft className="size-5" />
+                </Button>
+              }
+            />
+            <Tooltip.Content>Anterior mes</Tooltip.Content>
+          </Tooltip>
+          <Tooltip>
+            <Tooltip.Trigger
+              render={
+                <Button variant="secondary" size="icon" onClick={nextMonth}>
+                  <ArrowRight className="size-5" />
+                </Button>
+              }
+            />
+            <Tooltip.Content>Siguiente mes</Tooltip.Content>
+          </Tooltip>
         </div>
         <SubscriptionCreatePopover />
       </div>
